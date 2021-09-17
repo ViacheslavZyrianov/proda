@@ -6,15 +6,21 @@ import TheElMenu from './components/TheElMenu.vue'
 import router from './router/index'
 
 if (!window.localStorage.getItem('auth')) {
-  const users = {
-    slava: 'slavapass',
-    roma: 'romapass'
-  }
-  const [login, password] = window.prompt('Enter login and password')?.split('@')
-  if (!users[login] || users[login] !== password) router.push('error-auth')
+  // const users = {
+  //   slava: 'slavapass',
+  //   roma: 'romapass'
+  // }
+  // const [login, password] = window.prompt('Enter login and password')?.split('@')
+  // if (!users[login] || users[login] !== password) router.push('error-auth')
+  // else {
+  //   window.localStorage.setItem('auth', `${login}@${password}`)
+  //   router.push('/')
+  // }
+  const loginData = window.prompt('Enter login and password')
+  if (loginData !== import.meta.env.VITE_USER) router.push('error-auth')
   else {
-    window.localStorage.setItem('auth', `${login}@${password}`)
-    router.push('/')
+    window.localStorage.setItem('auth', loginData)
+    router.push('/dashboard')
   }
 }
 </script>
