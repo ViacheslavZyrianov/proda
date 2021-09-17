@@ -201,20 +201,14 @@ function onAddEditOrderClosed() {
         />
       </el-form-item>
       <el-form-item label="City">
-        <el-select
+        <el-select-v2
           v-model="form.city"
           placeholder="City"
           filterable
           remote
+          :options="novaPostCitiesForTemplate"
           :remote-method="remoteCityListMethod"
-        >
-          <el-option
-            v-for="city in novaPostCitiesForTemplate"
-            :key="city.value"
-            :label="city.label"
-            :value="city.value"
-          />
-        </el-select>
+        />
       </el-form-item>
       <el-form-item label="Post">
         <el-input

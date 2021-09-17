@@ -77,7 +77,8 @@ input[type=number] {
   }
 }
 
-.el-select {
+.el-select,
+.el-select-v2 {
   width: 100%;
 }
 </style>
