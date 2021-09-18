@@ -6,4 +6,11 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if (!localStorage.getItem('auth')) {
+    if (to.path !== '/') router.push('/')
+  }
+  next()
+})
+
 export default router

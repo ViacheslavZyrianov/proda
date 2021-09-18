@@ -3,41 +3,30 @@
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 
 import TheElMenu from './components/TheElMenu.vue'
-import router from './router/index'
+import TheAuth from './components/TheAuth.vue'
 
-if (!window.localStorage.getItem('auth')) {
-  // const users = {
-  //   slava: 'slavapass',
-  //   roma: 'romapass'
-  // }
-  // const [login, password] = window.prompt('Enter login and password')?.split('@')
-  // if (!users[login] || users[login] !== password) router.push('error-auth')
-  // else {
-  //   window.localStorage.setItem('auth', `${login}@${password}`)
-  //   router.push('/')
-  // }
-  const loginData = window.prompt('Enter login and password')
-  if (loginData !== import.meta.env.VITE_USER) router.push('error-auth')
-  else {
-    window.localStorage.setItem('auth', loginData)
-    router.push('/dashboard')
-  }
-}
+import router from './router/index'
+import { computed } from 'vue'
+
+const isLoggedIn = computed(() => window.localStorage.getItem('auth'))
 </script>
 
 <template>
   <el-container>
-    <the-el-menu />
-    <el-main>
-      <Suspense>
-        <template #default>
-          <router-view />
-        </template>
-        <template #fallback>
-          <span>Loading...</span>
-        </template>
-      </Suspense>
-    </el-main>
+    <template v-if="isLoggedIn">
+      <the-el-menu />
+      <el-main>
+        <Suspense>
+          <template #default>
+            <router-view />
+          </template>
+          <template #fallback>
+            <span>Loading...</span>
+          </template>
+        </Suspense>
+      </el-main>
+    </template>
+    <the-auth v-else />
   </el-container>
 </template>
 
@@ -58,7 +47,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }
@@ -67,9 +55,11 @@ input[type=number] {
   min-height: 100vh;
 }
 
-.el-aside {
+.el-main {
   min-height: 100vh;
+}
 
+.el-aside {
   .el-menu {
     display: flex;
     flex-direction: column;
