@@ -1,7 +1,8 @@
 export default [
   {
     label: 'Fullname',
-    prop: 'fullname'
+    prop: 'fullname',
+    width: '200px'
   },
   {
     label: 'Phone',
@@ -13,7 +14,8 @@ export default [
     label: 'City',
     prop: 'city',
     width: '230px',
-    align: 'center'
+    align: 'center',
+    sortable: true
   },
   {
     label: 'Post',
@@ -24,13 +26,14 @@ export default [
   {
     label: 'Date',
     prop: 'order_date',
-    width: '90px',
-    align: 'center'
+    width: '120px',
+    align: 'center',
+    sortable: true
   },
   {
     label: 'Invoice',
     prop: 'declaration_number',
-    width: '130px',
+    width: '140px',
     align: 'center'
   },
   {
