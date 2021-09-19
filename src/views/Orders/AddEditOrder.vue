@@ -80,7 +80,11 @@ function remoteCityListMethod(query) {
 }
 
 async function onSubmit() {
-  const isFormValid = refForm.value.validate(isValid => isValid)
+  let isFormValid = false
+
+  refForm.value.validateField(Object.keys(form), (errorMessage) => {
+    isFormValid = !errorMessage
+  })
 
   if (!isFormValid) return
   
@@ -268,6 +272,7 @@ function onAddEditOrderClosed() {
         />
       </el-form-item>
       <el-form-item
+        prop="orderInfo"
         label="Order info"
       >
         <el-divider />
@@ -363,7 +368,10 @@ function onAddEditOrderClosed() {
           Add product
         </el-button>
       </el-form-item>
-      <el-form-item label="Total">
+      <el-form-item
+        prop="total"
+        label="Total"
+      >
         <el-row
           :gutter="10"
         >

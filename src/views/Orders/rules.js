@@ -1,4 +1,4 @@
-import { nameValidator, phoneValidator } from './validators'
+import { name, phone, number } from './validators'
 
 export default {
   fullname: [
@@ -9,7 +9,7 @@ export default {
     },
     {
       message: 'Name and surname has to have at least 2 characters',
-      validator: nameValidator,
+      validator: name,
       trigger: 'change'
     }
   ],
@@ -21,7 +21,7 @@ export default {
     },
     {
       message: 'Format has to be 380 XXXXXXXXX',
-      validator: phoneValidator,
+      validator: phone,
       trigger: 'change'
     }
   ],
@@ -39,15 +39,15 @@ export default {
       trigger: 'change'
     },
     {
-      message: 'Post has to contain only numbers',
-      type: 'number',
+      message: 'Has to be number',
+      validator: number,
       trigger: 'change'
     }
   ],
   invoice: [
     {
       message: 'Has to be number',
-      type: 'number',
+      validator: number,
       trigger: 'change'
     }
   ]

@@ -70,5 +70,11 @@ input[type=number] {
 .el-select,
 .el-select-v2 {
   width: 100%;
+
+  &__placeholder {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
 </style>
