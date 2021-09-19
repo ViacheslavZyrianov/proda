@@ -33,7 +33,7 @@ const isLoggedIn = computed(() => window.localStorage.getItem('auth'))
 <style lang="scss">
 * {
   box-sizing: border-box;
-  font-family: 'Urbanist', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
