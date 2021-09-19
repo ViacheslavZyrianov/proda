@@ -2,6 +2,7 @@
 import { useStore } from 'vuex'
 import { ref, reactive, watch, computed } from 'vue'
 import { ElMessage } from 'element-plus'
+import rules from './rules'
 
 const props = defineProps({
   isVisible: Boolean,
@@ -15,13 +16,23 @@ const cities = await store.dispatch('fetchCities')
 
 const { products } = store.state.products
 
+const isAddProductDisabled = false
+
 const orderInfoList = reactive([])
+orderInfoList.push({
+  product: products[0].product_name,
+  amount: 1,
+  price: products[0].price,
+  discount: 0
+})
 
 const isSubmitButtonLoading = ref(false)
 
 const totalDiscount = ref(0)
 
+const refForm = ref(null)
 const form = reactive({})
+resetForm()
 
 watch(() => store.state.orders.editingOrder, newEditingOrder => {
   if (Object.keys(newEditingOrder).length) {
@@ -51,7 +62,7 @@ watch(() => store.state.orders.editingOrder, newEditingOrder => {
 watch([orderInfoList, totalDiscount], ([newOrderInfoList]) => {
   const totalSum = calculateTotalPrice(newOrderInfoList)
   form.price = calculateDiscountValueWithDiscount(totalSum, totalDiscount.value)
-}, { deep: true })
+}, { deep: true, immediate: true })
 
 const novaPostCities = ref(cities.map(city => ({ value: city, label: city })))
 let novaPostCitiesForTemplate = ref([])
@@ -69,6 +80,10 @@ function remoteCityListMethod(query) {
 }
 
 async function onSubmit() {
+  const isFormValid = refForm.value.validate(isValid => isValid)
+
+  if (!isFormValid) return
+  
   isSubmitButtonLoading.value = true
 
   calculateOrderInfoList()
@@ -108,7 +123,7 @@ async function onSubmit() {
 function resetForm() {
   Object.assign(form, {
     fullname: '',
-    phone: 380,
+    phone: '',
     city: '',
     post: null,
     invoice: null,
@@ -116,8 +131,6 @@ function resetForm() {
     price: 0
   })
 }
-
-resetForm()
 
 function calculateDiscountValueWithDiscount(value, discount) {
   return Number(value - (value * (discount / 100)).toFixed())
@@ -169,7 +182,14 @@ function onAddEditOrderClose() {
 
 function onAddEditOrderClosed() {
   orderInfoList.length = 0
+  orderInfoList.push({
+    product: products[0].product_name,
+    amount: 1,
+    price: products[0].price,
+    discount: 0
+  })
   store.commit('set_editing_order', {})
+  refForm.value?.resetFields()
   resetForm()
 }
 </script>
@@ -184,49 +204,72 @@ function onAddEditOrderClosed() {
   >
     <el-form
       :model="form"
+      :rules="rules"
+      ref="refForm"
       label-width="100px"
     >
-      <el-form-item label="Fullname">
+      <el-form-item
+        prop="fullname"
+        label="Fullname"
+      >
         <el-input
           v-model="form.fullname"
-          placeholder="Fullname"
+          placeholder="John Doe"
         />
       </el-form-item>
-      <el-form-item label="Phone">
+      <el-form-item
+        prop="phone"
+        label="Phone"
+      >
         <el-input
           v-model="form.phone"
+          placeholder="991234567"
           type="tel"
-          placeholder="Phone"
-          maxlength="12"
-        />
+          maxlength="9"
+        >
+          <template #prepend>
+            +380
+          </template>
+        </el-input>
       </el-form-item>
-      <el-form-item label="City">
+      <el-form-item
+        prop="city"
+        label="City"
+      >
         <el-select-v2
           v-model="form.city"
-          placeholder="City"
+          placeholder="Kyiv"
           filterable
           remote
           :options="novaPostCitiesForTemplate"
           :remote-method="remoteCityListMethod"
         />
       </el-form-item>
-      <el-form-item label="Post">
+      <el-form-item
+        prop="post"
+        label="Post"
+      >
         <el-input
           v-model="form.post"
           type="tel"
-          placeholder="Post"
+          placeholder="000"
           maxlength="3"
         />
       </el-form-item>
-      <el-form-item label="Invoice">
+      <el-form-item
+        prop="invoice"
+        label="Invoice"
+      >
         <el-input
           v-model="form.invoice"
           type="tel"
-          placeholder="Invoice"
+          placeholder="12345678912345"
           maxlength="14"
         />
       </el-form-item>
-      <el-form-item label="Order info">
+      <el-form-item
+        label="Order info"
+      >
         <el-divider />
         <el-space
           v-for="orderInfo in orderInfoList"
@@ -312,6 +355,7 @@ function onAddEditOrderClosed() {
           <el-divider />
         </el-space>
         <el-button
+          :disabled="isAddProductDisabled"
           size="mini"
           type="success"
           @click="onAddNewProductToProductInfo"
@@ -324,26 +368,17 @@ function onAddEditOrderClosed() {
           :gutter="10"
         >
           <el-col
-            :span="3"
+            :span="12"
           >
-            Price
+            {{ form.price }} UAH
           </el-col>
           <el-col
-            :span="13"
-          >
-            <el-input
-              v-model="form.price"
-              type="tel"
-              placeholder="Total"
-            />
-          </el-col>
-          <el-col
-            :span="4"
+            :span="6"
           >
             Discount
           </el-col>
           <el-col
-            :span="4"
+            :span="6"
           >
             <el-input
               v-model="totalDiscount"
