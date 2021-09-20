@@ -2,7 +2,7 @@
 import { ref, reactive, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import tableColumns from './tableColumns'
-import { ElMessage } from 'element-plus'
+import filtersStatus from './filtersStatus'
 import router from '../../router'
 
 const store = useStore()
@@ -22,6 +22,11 @@ const defaultSort = {
   prop: router.currentRoute.value.query.sort_by,
   order: router.currentRoute.value.query.sort_way + 'ending'
 }
+
+const formattedFilters = reactive({})
+Object.assign(formattedFilters, router.currentRoute.value.query)
+
+const isDeleteButtonLoading = ref(false)
 
 watch(() => router, async () => {
   isTableDataLoading.value = true
@@ -50,8 +55,6 @@ function onEditOrder(id) {
   store.commit('set_editing_order', store.state.orders.orders.find(({ order_id }) => order_id === id))
   emit('edit')
 }
-
-const isDeleteButtonLoading = ref(false)
 
 async function onDeleteOrder(id) {
   isDeleteButtonLoading.value = true
@@ -91,6 +94,22 @@ function onSortChange({ prop, order }) {
   else pushToRoute({ sort_by: null, sort_way: null })
 }
 
+function onFilterChange(filters) {
+  Object.keys(filters).forEach(filterKey => {
+    formattedFilters[filterKey] = filters[filterKey].join(',')
+  })
+  pushToRoute({ ...formattedFilters })
+}
+
+function onFilterSearch() {
+  pushToRoute({ ...formattedFilters })
+}
+
+function defaultFilterValues(prop) {
+  const foo = router.currentRoute.value.query[prop]
+  return []
+}
+
 pushToRoute({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
@@ -102,6 +121,7 @@ pushToRoute({ page: router.currentRoute.value.query.page || 1 })
     border
     fit
     @sort-change="onSortChange"
+    @filter-change="onFilterChange"
   >
     <el-table-column
       v-for="tableColumn in tableColumns"
@@ -111,12 +131,49 @@ pushToRoute({ page: router.currentRoute.value.query.page || 1 })
       :width="tableColumn.width"
       :align="tableColumn.align"
       :sortable="tableColumn.sortable"
-    />
+      :filters="tableColumn.filters"
+    >
+      <template #header>
+        {{ tableColumn.label }}
+        <el-popover
+          v-if="tableColumn.searchable"
+          placement="bottom"
+          :width="200"
+          trigger="click"
+        >
+          <template #reference>
+            <el-button
+              icon="el-icon-search"
+              size="mini"
+              circle
+              class="el-button__filter-search"
+            />
+          </template>
+          <template #default>
+            <el-input
+              v-model="formattedFilters[tableColumn.prop]"
+              size="mini"
+            />
+            <el-button
+              size="mini"
+              type="text"
+              class="el-popover__search-button"
+              @click="onFilterSearch"
+            >
+              Search
+            </el-button>
+          </template>
+        </el-popover>
+      </template>
+    </el-table-column>
     <el-table-column
       align="center"
       prop="status"
       label="Status"
+      column-key="status"
       :width="120"
+      :filtered-value="defaultFilterValues('status')"
+      :filters="filtersStatus"
     >
       <template #default="scope">
         <el-tag
@@ -172,5 +229,13 @@ pushToRoute({ page: router.currentRoute.value.query.page || 1 })
   display: flex;
   justify-content: flex-end;
   margin: 16px 0;
+}
+
+.el-button__filter-search {
+  margin-left: 4px;
+}
+
+.el-popover__search-button {
+  float: right;
 }
 </style>

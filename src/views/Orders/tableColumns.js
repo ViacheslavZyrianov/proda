@@ -2,25 +2,28 @@ export default [
   {
     label: 'Fullname',
     prop: 'fullname',
-    width: '200px'
+    width: '200px',
+    searchable: true
   },
   {
     label: 'Phone',
     prop: 'phone',
     width: '130px',
-    align: 'center'
+    align: 'center',
+    searchable: true
   },
   {
     label: 'City',
     prop: 'city',
     width: '230px',
     align: 'center',
-    sortable: true
+    sortable: true,
+    searchable: true
   },
   {
     label: 'Post',
     prop: 'nova_post',
-    width: '50px',
+    width: '100px',
     align: 'center'
   },
   {
@@ -45,7 +48,8 @@ export default [
   {
     label: 'Total price',
     prop: 'price',
-    width: '90px',
-    align: 'center'
+    width: '150px',
+    align: 'center',
+    sortable: true
   }
 ]

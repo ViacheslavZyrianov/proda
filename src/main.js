@@ -3,10 +3,12 @@ import App from './App.vue'
 import router from './router'
 import './plugins/axios'
 import store from './store/index'
-import { ElLoading, ElCard, ElRow, ElCol, ElSpace, ElDivider, ElButton, ElAside, ElMain, ElContainer, ElMenu, ElMenuItem, ElDrawer, ElTable, ElTableColumn, ElDialog, ElForm, ElFormItem, ElInput, ElInputNumber, ElSelect, ElSelectV2, ElTag, ElPagination } from 'element-plus'
+import { ElPopover, ElMessage, ElLoading, ElCard, ElRow, ElCol, ElSpace, ElDivider, ElButton, ElAside, ElMain, ElContainer, ElMenu, ElMenuItem, ElDrawer, ElTable, ElTableColumn, ElDialog, ElForm, ElFormItem, ElInput, ElInputNumber, ElSelect, ElSelectV2, ElTag, ElPagination } from 'element-plus'
 
 const app = createApp(App)
 
+app.use(ElPopover)
+app.use(ElMessage)
 app.use(ElLoading)
 app.use(ElCard)
 app.use(ElRow)
