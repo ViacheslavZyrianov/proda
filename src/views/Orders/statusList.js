@@ -8,8 +8,8 @@ export default [
     value: 'cooked'
   },
   {
-    text: 'Send',
-    value: 'send'
+    text: 'Sent',
+    value: 'sent'
   },
   {
     text: 'Delivered',

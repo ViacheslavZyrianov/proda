@@ -3,6 +3,7 @@ import { useStore } from 'vuex'
 import { ref, reactive, watch, computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import rules from './rules'
+import statusList from './statusList'
 
 const props = defineProps({
   isVisible: Boolean,
@@ -41,6 +42,7 @@ watch(() => store.state.orders.editingOrder, newEditingOrder => {
     form.city = newEditingOrder.city
     form.post = newEditingOrder.nova_post
     form.invoice = newEditingOrder.declaration_number
+    form.status = newEditingOrder.status
 
     const orderInfo = JSON.parse(newEditingOrder.order_info)
     Object.keys(orderInfo).forEach(productName => {
@@ -106,10 +108,14 @@ async function onSubmit() {
 
   let data = null
   if (mode.value === 'add') data = await store.dispatch('postOrder', formDataForAPI)
-  if (mode.value === 'edit') data = await store.dispatch('putOrder', {
-    payload: formDataForAPI,
-    id: store.state.orders.editingOrder.order_id
-  })
+  if (mode.value === 'edit') {
+    const { order_id: id, status } = store.state.orders.editingOrder
+    data = await store.dispatch('putOrder', {
+      payload: formDataForAPI,
+      id,
+      status
+    })
+  }
 
   if (data.message) ElMessage({ message: data.message, type: 'error' })
   else {
@@ -131,6 +137,7 @@ function resetForm() {
     city: '',
     post: null,
     invoice: null,
+    status: null,
     info: {},
     price: 0
   })
@@ -202,6 +209,7 @@ function onAddEditOrderClosed() {
   <el-drawer
     v-model="isVisible"
     :title="drawerTitle"
+    size="500px"
     @close="onAddEditOrderClose"
     @closed="onAddEditOrderClosed"
   >
@@ -269,6 +277,20 @@ function onAddEditOrderClosed() {
           placeholder="12345678912345"
           maxlength="14"
         />
+      </el-form-item>
+      <el-form-item
+        v-if="mode === 'edit'"
+      >
+        <el-select
+          v-model="form.status"
+        >
+          <el-option
+            v-for="({ text, value }) in statusList"
+            :key="value"
+            :value="value"
+            :label="text"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item
         prop="orderInfo"

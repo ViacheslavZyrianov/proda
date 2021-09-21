@@ -2,7 +2,7 @@
 import { ref, reactive, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import tableColumns from './tableColumns'
-import filtersStatus from './filtersStatus'
+import statusList from './statusList'
 import router from '../../router'
 import removeEmptyProperties from '../../utils/removeEmptyProperties'
 
@@ -174,7 +174,7 @@ pushToRoute({ page: router.currentRoute.value.query.page || 1 })
       column-key="status"
       :width="120"
       :filtered-value="defaultFilterValues('status')"
-      :filters="filtersStatus"
+      :filters="statusList"
     >
       <template #default="scope">
         <el-tag
