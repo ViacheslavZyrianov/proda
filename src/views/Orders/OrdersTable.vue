@@ -17,7 +17,7 @@ defineProps({
 
 const isTableDataLoading = ref(false)
 
-const currentPage = ref(router.currentRoute.value.query.page)
+const currentPage = ref(Number(router.currentRoute.value.query.page))
 
 const defaultSort = {
   prop: router.currentRoute.value.query.sort_by,
@@ -33,6 +33,7 @@ watch(() => router, async () => {
   if (router.currentRoute.value.name === 'orders' && Object.keys(router.currentRoute.value.query).length) {
     isTableDataLoading.value = true
     await store.dispatch('fetchOrders', router.currentRoute.value.query)
+    currentPage.value = Number(router.currentRoute.value.query.page)
     isTableDataLoading.value = false
   }
 }, { deep: true, immediate: true })
@@ -78,7 +79,7 @@ function tagType(status) {
 }
 
 async function onPaginationChange(page) {
-  currentPage.value = page
+  currentPage.value = Number(page)
   modifyRouteQuery({ page })
 }
 
@@ -204,7 +205,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
   <el-pagination
     :disabled="isTableDataLoading"
     :total="store.state.orders.ordersTotal"
-    :current-page="Number(currentPage)"
+    :current-page="currentPage"
     layout="prev, pager, next"
     mini
     background

@@ -56,7 +56,7 @@
   <el-pagination
     :disabled="isTableDataLoading"
     :total="total"
-    :current-page="Number(currentPage)"
+    :current-page="currentPage"
     layout="prev, pager, next"
     mini
     background
@@ -78,7 +78,7 @@ const store = useStore()
 const clients = reactive([])
 const total = ref(0)
 
-const currentPage = ref(router.currentRoute.value.query.page)
+const currentPage = ref(Number(router.currentRoute.value.query.page))
 
 const formattedFilters = reactive({ ...router.currentRoute.value.query })
 
@@ -87,6 +87,7 @@ watch(() => router, async () => {
     isTableDataLoading.value = true
     clients.length = 0
     const data = await store.dispatch('fetchClients', router.currentRoute.value.query)
+    currentPage.value = Number(router.currentRoute.value.query.page)
     clients.push(...data.data)
     total.value = data.total
     isTableDataLoading.value = false
@@ -94,7 +95,7 @@ watch(() => router, async () => {
 }, { deep: true, immediate: true })
 
 async function onPaginationChange(page) {
-  currentPage.value = page
+  currentPage.value = Number(page)
   modifyRouteQuery({ page })
 }
 
