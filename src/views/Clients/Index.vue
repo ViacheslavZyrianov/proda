@@ -75,7 +75,8 @@ import modifyRouteQuery from '../../utils/modifyRouteQuery'
 let isTableDataLoading = ref(false)
 
 const store = useStore()
-const { data: clients, total } = await store.dispatch('fetchClients')
+const clients = reactive([])
+let total = ref(0)
 
 const currentPage = ref(router.currentRoute.value.query.page)
 
@@ -83,7 +84,10 @@ const formattedFilters = reactive({ ...router.currentRoute.value.query })
 
 watch(() => router, async () => {
   isTableDataLoading.value = true
-  await store.dispatch('fetchClients', router.currentRoute.value.query)
+  clients.length = 0
+  const data = await store.dispatch('fetchClients', router.currentRoute.value.query)
+  clients.push(...data.data)
+  total = data.total
   isTableDataLoading.value = false
 }, { deep: true, immediate: true })
 
