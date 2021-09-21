@@ -37,13 +37,15 @@ export default [
     prop: 'order_date',
     width: '120px',
     align: 'center',
-    sortable: true
+    sortable: true,
+    searchable: true
   },
   {
-    label: 'Invoice',
-    prop: 'declaration_number',
+    label: 'TTN',
+    prop: 'ttn',
     width: '140px',
-    align: 'center'
+    align: 'center',
+    searchable: true
   },
   {
     label: 'Info',
