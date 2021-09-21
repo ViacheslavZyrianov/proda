@@ -76,7 +76,7 @@ let isTableDataLoading = ref(false)
 
 const store = useStore()
 const clients = reactive([])
-let total = ref(0)
+const total = ref(0)
 
 const currentPage = ref(router.currentRoute.value.query.page)
 
@@ -88,7 +88,7 @@ watch(() => router, async () => {
     clients.length = 0
     const data = await store.dispatch('fetchClients', router.currentRoute.value.query)
     clients.push(...data.data)
-    total = data.total
+    total.value = data.total
     isTableDataLoading.value = false
   }
 }, { deep: true, immediate: true })
@@ -113,4 +113,6 @@ function onFilterChange(filters) {
 function onFilterSearch() {
   modifyRouteQuery({ ...formattedFilters })
 }
+
+modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
