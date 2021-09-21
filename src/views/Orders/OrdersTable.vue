@@ -4,6 +4,7 @@ import { useStore } from 'vuex'
 import tableColumns from './tableColumns'
 import filtersStatus from './filtersStatus'
 import router from '../../router'
+import removeEmptyProperties from '../../utils/removeEmptyProperties'
 
 const store = useStore()
 const { products } = store.state.products
@@ -76,17 +77,11 @@ function tagType(status) {
 }
 
 function pushToRoute(params) {
-  const query = {
-    ...router.currentRoute.value.query,
-    ...params
-  }
-
-  for (let key in query) {
-    if (!query[key]) delete query[key]
-  }
-
   router.push({
-    query
+    query: removeEmptyProperties({
+      ...router.currentRoute.value.query,
+      ...params
+    })
   })
 }
 
