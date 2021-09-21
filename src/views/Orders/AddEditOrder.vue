@@ -42,7 +42,7 @@ watch(() => store.state.orders.editingOrder, newEditingOrder => {
     form.phone = newEditingOrder.phone
     form.city = newEditingOrder.city
     form.post = newEditingOrder.nova_post
-    form.invoice = newEditingOrder.declaration_number
+    form.ttn = newEditingOrder.ttn
     form.status = newEditingOrder.status
 
     const orderInfo = JSON.parse(newEditingOrder.order_info)
@@ -104,7 +104,7 @@ async function onSubmit() {
     order_info: form.info,
     price: Number(form.price),
     discount: Number(totalDiscount.value),
-    declaration_number: form.invoice
+    ttn: Number(form.ttn)
   }
 
   let data = null
@@ -138,7 +138,7 @@ function resetForm() {
     phone: '',
     city: '',
     post: null,
-    invoice: null,
+    ttn: null,
     status: null,
     info: {},
     price: 0
@@ -279,11 +279,11 @@ function onAddEditOrderClosed() {
         />
       </el-form-item>
       <el-form-item
-        prop="invoice"
-        label="Invoice"
+        prop="ttn"
+        label="TTN"
       >
         <el-input
-          v-model="form.invoice"
+          v-model="form.ttn"
           type="tel"
           placeholder="12345678912345"
           maxlength="14"
