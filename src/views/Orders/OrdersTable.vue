@@ -48,7 +48,6 @@ function parseOrderInfo(orderInfo) {
 
 const parsedOrders = computed(() => store.state.orders.orders.map(order => ({
   ...order,
-  fullname: `${order.first_name} ${order.last_name}`,
   order_info: parseOrderInfo(order.order_info)
 })))
 

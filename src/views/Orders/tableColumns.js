@@ -1,7 +1,13 @@
 export default [
   {
-    label: 'Fullname',
-    prop: 'fullname',
+    label: 'First name',
+    prop: 'first_name',
+    width: '200px',
+    searchable: true
+  },
+  {
+    label: 'Last name',
+    prop: 'last_name',
     width: '200px',
     searchable: true
   },

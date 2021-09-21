@@ -1,4 +1,4 @@
-import { name, phone, number } from './validators'
+import { phone, number } from './validators'
 
 export default {
   fullname: [
@@ -8,8 +8,8 @@ export default {
       trigger: 'change'
     },
     {
-      message: 'Name and surname has to have at least 2 characters',
-      validator: name,
+      required: true,
+      message: 'The field is required',
       trigger: 'change'
     }
   ],

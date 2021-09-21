@@ -37,7 +37,8 @@ resetForm()
 
 watch(() => store.state.orders.editingOrder, newEditingOrder => {
   if (Object.keys(newEditingOrder).length) {
-    form.fullname = `${newEditingOrder.first_name} ${newEditingOrder.last_name}`
+    form.first_name = newEditingOrder.first_name
+    form.last_name = newEditingOrder.last_name
     form.phone = newEditingOrder.phone
     form.city = newEditingOrder.city
     form.post = newEditingOrder.nova_post
@@ -95,8 +96,8 @@ async function onSubmit() {
   calculateOrderInfoList()
 
   const formDataForAPI = {
-    first_name: form.fullname.split(' ')[0],
-    last_name: form.fullname.split(' ')[1],
+    first_name: form.first_name,
+    last_name: form.last_name,
     phone: Number(form.phone),
     city: form.city,
     nova_post: Number(form.post),
@@ -132,7 +133,8 @@ async function onSubmit() {
 
 function resetForm() {
   Object.assign(form, {
-    fullname: '',
+    first_name: '',
+    last_name: '',
     phone: '',
     city: '',
     post: null,
@@ -220,12 +222,21 @@ function onAddEditOrderClosed() {
       label-width="100px"
     >
       <el-form-item
-        prop="fullname"
-        label="Fullname"
+        prop="first_name"
+        label="First name"
       >
         <el-input
-          v-model="form.fullname"
-          placeholder="John Doe"
+          v-model="form.first_name"
+          placeholder="John"
+        />
+      </el-form-item>
+      <el-form-item
+        prop="last_name"
+        label="Last name"
+      >
+        <el-input
+          v-model="form.last_name"
+          placeholder="Doe"
         />
       </el-form-item>
       <el-form-item
