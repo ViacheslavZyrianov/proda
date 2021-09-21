@@ -291,9 +291,12 @@ function onAddEditOrderClosed() {
       </el-form-item>
       <el-form-item
         v-if="mode === 'edit'"
+        prop="status"
+        label="Status"
       >
         <el-select
           v-model="form.status"
+          type="primary"
         >
           <el-option
             v-for="({ text, value }) in statusList"
