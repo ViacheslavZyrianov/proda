@@ -1,10 +1,10 @@
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
 import { useStore } from 'vuex'
+import router from '../../router'
+import modifyRouteQuery from '../../utils/modifyRouteQuery'
 import tableColumns from './tableColumns'
 import statusList from './statusList'
-import router from '../../router'
-import removeEmptyProperties from '../../utils/removeEmptyProperties'
 
 const store = useStore()
 const { products } = store.state.products
@@ -75,34 +75,25 @@ function tagType(status) {
   if (status === 'delivered') return 'info'
 }
 
-function pushToRoute(params) {
-  router.push({
-    query: removeEmptyProperties({
-      ...router.currentRoute.value.query,
-      ...params
-    })
-  })
-}
-
 async function onPaginationChange(page) {
   currentPage.value = page
-  pushToRoute({ page })
+  modifyRouteQuery({ page })
 }
 
 function onSortChange({ prop, order }) {
-  if (prop && order) pushToRoute({ sort_by: prop, sort_way: order.replace('ending', '') })
-  else pushToRoute({ sort_by: null, sort_way: null })
+  if (prop && order) modifyRouteQuery({ sort_by: prop, sort_way: order.replace('ending', '') })
+  else modifyRouteQuery({ sort_by: null, sort_way: null })
 }
 
 function onFilterChange(filters) {
   Object.keys(filters).forEach(filterKey => {
     formattedFilters[filterKey] = filters[filterKey].join(',')
   })
-  pushToRoute({ ...formattedFilters })
+  modifyRouteQuery({ ...formattedFilters })
 }
 
 function onFilterSearch() {
-  pushToRoute({ ...formattedFilters })
+  modifyRouteQuery({ ...formattedFilters })
 }
 
 function defaultFilterValues(prop) {
@@ -110,7 +101,7 @@ function defaultFilterValues(prop) {
   return []
 }
 
-pushToRoute({ page: router.currentRoute.value.query.page || 1 })
+modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
 <template>
