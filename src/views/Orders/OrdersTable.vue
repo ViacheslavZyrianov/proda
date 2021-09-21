@@ -120,6 +120,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
       :prop="tableColumn.prop"
       :label="tableColumn.label"
       :width="tableColumn.width"
+      :min-width="tableColumn.minWidth"
       :align="tableColumn.align"
       :sortable="tableColumn.sortable"
       :filters="tableColumn.filters"

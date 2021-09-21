@@ -26,7 +26,6 @@ function onEditOrder() {
 
 <template>
   <section class="page_orders">
-    <h1>Orders</h1>
     <orders-table
       @edit="onEditOrder"
     />
