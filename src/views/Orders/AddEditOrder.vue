@@ -104,7 +104,8 @@ async function onSubmit() {
     order_info: form.info,
     price: Number(form.price),
     discount: Number(totalDiscount.value),
-    ttn: Number(form.ttn)
+    ttn: Number(form.ttn),
+    status: form.status
   }
 
   let data = null
