@@ -51,7 +51,9 @@ export default {
 </script>
 
 <template>
-  <el-aside>
+  <el-aside
+    width="200px"
+  >
     <el-menu
         :default-active="`${defaultActive}`"
     >

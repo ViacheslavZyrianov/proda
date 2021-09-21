@@ -202,7 +202,6 @@ function onAddEditOrderClosed() {
   <el-drawer
     v-model="isVisible"
     :title="drawerTitle"
-    size="500px"
     @close="onAddEditOrderClose"
     @closed="onAddEditOrderClosed"
   >
