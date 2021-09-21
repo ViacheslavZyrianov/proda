@@ -76,11 +76,17 @@ function tagType(status) {
 }
 
 function pushToRoute(params) {
+  const query = {
+    ...router.currentRoute.value.query,
+    ...params
+  }
+
+  for (let key in query) {
+    if (!query[key]) delete query[key]
+  }
+
   router.push({
-    query: {
-      ...router.currentRoute.value.query,
-      ...params
-    }
+    query
   })
 }
 
