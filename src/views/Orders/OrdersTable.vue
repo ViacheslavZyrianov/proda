@@ -30,9 +30,11 @@ Object.assign(formattedFilters, router.currentRoute.value.query)
 const isDeleteButtonLoading = ref(false)
 
 watch(() => router, async () => {
-  isTableDataLoading.value = true
-  await store.dispatch('fetchOrders', router.currentRoute.value.query)
-  isTableDataLoading.value = false
+  if (router.currentRoute.value.name === 'orders' && Object.keys(router.currentRoute.value.query).length) {
+    isTableDataLoading.value = true
+    await store.dispatch('fetchOrders', router.currentRoute.value.query)
+    isTableDataLoading.value = false
+  }
 }, { deep: true, immediate: true })
 
 function parseOrderInfo(orderInfo) {

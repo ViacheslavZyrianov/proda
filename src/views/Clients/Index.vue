@@ -83,12 +83,14 @@ const currentPage = ref(router.currentRoute.value.query.page)
 const formattedFilters = reactive({ ...router.currentRoute.value.query })
 
 watch(() => router, async () => {
-  isTableDataLoading.value = true
-  clients.length = 0
-  const data = await store.dispatch('fetchClients', router.currentRoute.value.query)
-  clients.push(...data.data)
-  total = data.total
-  isTableDataLoading.value = false
+  if (router.currentRoute.value.name === 'clients' && Object.keys(router.currentRoute.value.query).length) {
+    isTableDataLoading.value = true
+    clients.length = 0
+    const data = await store.dispatch('fetchClients', router.currentRoute.value.query)
+    clients.push(...data.data)
+    total = data.total
+    isTableDataLoading.value = false
+  }
 }, { deep: true, immediate: true })
 
 async function onPaginationChange(page) {
