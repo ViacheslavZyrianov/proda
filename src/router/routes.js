@@ -4,7 +4,6 @@ import products from '../views/Products/Index.vue'
 import productsItem from '../views/Products/Item.vue'
 
 import clients from '../views/Clients/Index.vue'
-import clientsItem from '../views/Clients/Item.vue'
 
 import orders from '../views/Orders/Index.vue'
 
@@ -29,11 +28,6 @@ export default [
     path: '/clients',
     name: 'clients',
     component: clients,
-  },
-  {
-    path: '/clients/:id',
-    name: 'clientsItem',
-    component: clientsItem,
   },
   {
     path: '/orders',
