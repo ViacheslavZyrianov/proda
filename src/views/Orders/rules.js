@@ -1,17 +1,19 @@
 import { phone, number } from './validators'
 
 export default {
-  fullname: [
+  first_name: [
     {
       required: true,
       message: 'The field is required',
       trigger: 'change'
     },
+  ],
+  last_name: [
     {
       required: true,
       message: 'The field is required',
       trigger: 'change'
-    }
+    },
   ],
   phone: [
     {
@@ -44,7 +46,7 @@ export default {
       trigger: 'change'
     }
   ],
-  invoice: [
+  ttn: [
     {
       message: 'Has to be number',
       validator: number,
