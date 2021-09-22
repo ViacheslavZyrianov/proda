@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 
 import OrdersTable from './OrdersTable.vue'
