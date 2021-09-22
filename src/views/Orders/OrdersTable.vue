@@ -83,11 +83,6 @@ async function onPaginationChange(page) {
   modifyRouteQuery({ page })
 }
 
-// function onSortChange({ prop, order }) {
-//   if (prop && order) modifyRouteQuery({ sort_by: prop, sort_way: order.replace('ending', '') })
-//   else modifyRouteQuery({ sort_by: null, sort_way: null })
-// }
-
 function defaultFilterValues(prop) {
   const foo = router.currentRoute.value.query[prop]
   return []
