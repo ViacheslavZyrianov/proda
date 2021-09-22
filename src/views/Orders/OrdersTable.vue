@@ -83,21 +83,10 @@ async function onPaginationChange(page) {
   modifyRouteQuery({ page })
 }
 
-function onSortChange({ prop, order }) {
-  if (prop && order) modifyRouteQuery({ sort_by: prop, sort_way: order.replace('ending', '') })
-  else modifyRouteQuery({ sort_by: null, sort_way: null })
-}
-
-function onFilterChange(filters) {
-  Object.keys(filters).forEach(filterKey => {
-    formattedFilters[filterKey] = filters[filterKey].join(',')
-  })
-  modifyRouteQuery({ ...formattedFilters })
-}
-
-function onFilterSearch() {
-  modifyRouteQuery({ ...formattedFilters })
-}
+// function onSortChange({ prop, order }) {
+//   if (prop && order) modifyRouteQuery({ sort_by: prop, sort_way: order.replace('ending', '') })
+//   else modifyRouteQuery({ sort_by: null, sort_way: null })
+// }
 
 function defaultFilterValues(prop) {
   const foo = router.currentRoute.value.query[prop]
@@ -114,8 +103,6 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
     :default-sort="defaultSort"
     border
     fit
-    @sort-change="onSortChange"
-    @filter-change="onFilterChange"
   >
     <el-table-column
       v-for="tableColumn in tableColumns"
@@ -168,7 +155,6 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
       column-key="status"
       :width="120"
       :filtered-value="defaultFilterValues('status')"
-      :filters="statusList"
     >
       <template #default="scope">
         <el-tag
@@ -223,7 +209,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 .el-pagination {
   display: flex;
   justify-content: flex-end;
-  margin: 16px 0;
+  margin-top: 8px;
 }
 
 .el-button__filter-search {

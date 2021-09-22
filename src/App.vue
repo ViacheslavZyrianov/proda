@@ -67,10 +67,15 @@ input[type=number] {
   }
 }
 
+.el-input,
+.el-select,
+.el-select-v2,
+.el-date-editor {
+  width: 100% !important;
+}
+
 .el-select,
 .el-select-v2 {
-  width: 100%;
-
   &__placeholder {
     white-space: nowrap;
     text-overflow: ellipsis;
