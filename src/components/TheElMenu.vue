@@ -57,6 +57,11 @@ export default {
     <el-menu
         :default-active="`${defaultActive}`"
     >
+      <img
+        src="/public/img/logo.svg" 
+        alt="Logo"
+        class="logo"
+      >
       <el-menu-item
         v-for="(menuItem, menuItemIndex) in menuList"
         :key="menuItem.to"
@@ -78,5 +83,10 @@ export default {
 <style lang="scss" scoped>
 .el-menu-item_logout {
   margin-top: auto;
+}
+
+.logo {
+  width: 100%;
+  padding: 18px 20px;
 }
 </style>
