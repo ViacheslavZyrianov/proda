@@ -1,4 +1,3 @@
 {
-  "root": "dist/",
-  "basic_auth": true
+  "root": "dist/"
 }
