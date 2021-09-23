@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import router from '../../router/index'
 import menuList from './menuList'
 
-const isCollapsed = ref(false)
+const isCollapsed = ref(window.innerWidth < 961)
 const defaultActive = menuList.findIndex(({ to }) => to === window.location.pathname.slice(1)) || 0
 
 const collapseButtonIcon = computed(() => isCollapsed.value ? 'el-icon-right' : 'el-icon-back')
