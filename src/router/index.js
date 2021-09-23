@@ -9,6 +9,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (!localStorage.getItem('auth')) {
     if (to.path !== '/') router.push('/')
+  } else {
+    if (to.path === '/') {
+      router.push('dashboard')
+    }
   }
   next()
 })
