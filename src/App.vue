@@ -39,6 +39,7 @@ const isLoggedIn = computed(() => window.localStorage.getItem('auth'))
 body {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 input::-webkit-outer-spin-button,
@@ -51,12 +52,20 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+@for $i from 1 through 6 {
+  h#{$i} {
+    margin: 0;
+  }
+}
+
 #app {
   min-height: 100vh;
 }
 
 .el-main {
-  min-height: 100vh;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .el-aside {

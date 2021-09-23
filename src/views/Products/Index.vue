@@ -24,6 +24,7 @@ function onAddProductClick() {
     <el-button
       type="success"
       size="small"
+      class="add-button"
       @click="onAddProductClick"
     >
       <i class="el-icon-plus el-icon-left"></i>
@@ -41,15 +42,30 @@ function onAddProductClick() {
 
 <style lang="scss" scoped>
 .products {
-    &__header {
-      display: flex;
-      align-items: center;
+  &__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
 
-      .header {
-        &__title {
-          margin-right: auto;
+    @media screen and (max-width: 960px) {
+      flex-direction: column;
+    }
+
+    .header {
+      &__title {
+        margin-right: auto;
+
+        @media screen and (max-width: 960px) {
+          margin-bottom: 10px;
         }
       }
     }
+
+    .add-button {
+      @media screen and (max-width: 960px) {
+        margin-left: auto;
+      }
+    }
   }
+}
 </style>

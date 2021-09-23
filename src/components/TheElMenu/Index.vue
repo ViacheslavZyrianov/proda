@@ -34,6 +34,7 @@ function onCollapseExpandMenu() {
       <el-button
         :icon="collapseButtonIcon"
         circle
+        class="el-menu__expand-collapse-button"
         @click="onCollapseExpandMenu"
       />
       <img
@@ -76,15 +77,16 @@ function onCollapseExpandMenu() {
     padding-left: 11px;
   }
 
-  &--collapse {
-    .logo {
-      display: none;
-    }
+  &__expand-collapse-button {
+    margin-right: 10px;
   }
 
   .logo {
     width: 60%;
-    margin-left: 10px;
+
+    @media screen and (max-width: 960px) {
+      display: none;
+    }
   }
 }
 .el-menu-item_logout {
