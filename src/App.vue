@@ -2,7 +2,7 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 
-import TheElMenu from './components/TheElMenu.vue'
+import TheElMenu from './components/TheElMenu/Index.vue'
 import TheAuth from './components/TheAuth.vue'
 
 import router from './router/index'
