@@ -1,0 +1,4 @@
+{
+  "root": "dist/",
+  "basic_auth": true
+}
