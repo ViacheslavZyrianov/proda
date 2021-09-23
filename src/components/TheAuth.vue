@@ -14,29 +14,16 @@ function onSubmit() {
 }
 </script>
 
-<style lang="scss">
-.login {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &__form {
-    .el-input {
-      margin-bottom: 16px;
-    }
-  }
-
-  .form {
-    &__submit-button {
-      width: 100%;
-    }
-  }
-}
-</style>
-
 <template>
   <el-main class="login">
-    <el-card>
+    <el-card
+      :body-style="{ width: '300px' }"
+    >
+      <img
+        src="/public/img/logo.svg" 
+        alt="Logo"
+        class="logo"
+      >
       <el-form
         class="login__form"
         @submit.prevent="onSubmit"
@@ -61,3 +48,29 @@ function onSubmit() {
     </el-card>
   </el-main>
 </template>
+
+<style lang="scss" scoped>
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__form {
+    .el-input {
+      margin-bottom: 16px;
+    }
+  }
+
+  .form {
+    &__submit-button {
+      width: 100%;
+    }
+  }
+}
+
+.logo {
+  display: block;
+  width: 50%;
+  margin: 0 auto 20px;
+}
+</style>
