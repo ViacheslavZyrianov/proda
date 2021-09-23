@@ -2,7 +2,6 @@ import { createWebHistory, createRouter } from 'vue-router'
 import routes from './routes'
 
 const router = createRouter({
-  mode: 'hash',
   history: createWebHistory(),
   routes
 })
