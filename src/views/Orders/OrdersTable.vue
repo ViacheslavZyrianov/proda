@@ -29,6 +29,8 @@ Object.assign(formattedFilters, router.currentRoute.value.query)
 
 const isDeleteButtonLoading = ref(false)
 
+const isMobile = window.innerWidth < 961
+
 watch(() => router, async () => {
   if (router.currentRoute.value.name === 'orders' && Object.keys(router.currentRoute.value.query).length) {
     isTableDataLoading.value = true
@@ -92,7 +94,52 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
 <template>
+  <el-space
+    v-if="isMobile"
+    direction="vertical"
+    size="large"
+    fill
+  >
+    <el-card
+      v-for="product in parsedOrders"
+      :key="product.product_name"
+    >
+      <el-row
+        v-for="({ label, prop }) in tableColumns"
+        :key="prop"
+        class="card-row"
+      >
+        <el-col :span="11">
+          <b>{{ label }}</b>
+        </el-col>
+        <el-col
+          :span="11"
+          :offset="2"
+          class="card-row__value"
+        >
+          {{ product[prop] }}
+        </el-col>
+      </el-row>
+      <el-row justify="end">
+        <el-button
+          size="mini"
+          @click="onEditOrder(product.product_name)"
+        >
+          Edit
+        </el-button>
+        <el-button
+          :loading="isDeleteButtonLoading"
+          size="mini"
+          type="danger"
+          @click="onDeleteOrder(product.product_name)"
+        >
+          Delete
+        </el-button>
+      </el-row>
+    </el-card>
+  </el-space>
   <el-table
+    v-else
     v-loading="isTableDataLoading"
     :data="parsedOrders"
     :default-sort="defaultSort"
