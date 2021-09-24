@@ -75,10 +75,19 @@ function onCollapseExpandMenu() {
     display: flex;
     align-items: center;
     padding-left: 11px;
+
+    @media screen and (min-width: 961px) {
+      padding-left: 22px;
+      margin-bottom: 10px;
+    }
   }
 
   &__expand-collapse-button {
     margin-right: 10px;
+
+    @media screen and (min-width: 961px) {
+      display: none;
+    }
   }
 
   .logo {

@@ -85,11 +85,6 @@ async function onPaginationChange(page) {
   modifyRouteQuery({ page })
 }
 
-function defaultFilterValues(prop) {
-  const foo = router.currentRoute.value.query[prop]
-  return []
-}
-
 modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
@@ -156,47 +151,13 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
       :align="tableColumn.align"
       :sortable="tableColumn.sortable"
       :filters="tableColumn.filters"
-    >
-      <template #header>
-        {{ tableColumn.label }}
-        <el-popover
-          v-if="tableColumn.searchable"
-          placement="bottom"
-          :width="200"
-          trigger="click"
-        >
-          <template #reference>
-            <el-button
-              icon="el-icon-search"
-              size="mini"
-              circle
-              class="el-button__filter-search"
-            />
-          </template>
-          <template #default>
-            <el-input
-              v-model="formattedFilters[tableColumn.prop]"
-              size="mini"
-            />
-            <el-button
-              size="mini"
-              type="text"
-              class="el-popover__search-button"
-              @click="onFilterSearch"
-            >
-              Search
-            </el-button>
-          </template>
-        </el-popover>
-      </template>
-    </el-table-column>
+    />
     <el-table-column
       align="center"
       prop="status"
       label="Status"
       column-key="status"
       :width="120"
-      :filtered-value="defaultFilterValues('status')"
     >
       <template #default="scope">
         <el-tag

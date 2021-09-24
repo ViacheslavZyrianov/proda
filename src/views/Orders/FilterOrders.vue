@@ -50,7 +50,7 @@ function onFiltersSubmitClick() {
     last_name: form.last_name,
     phone: form.phone,
     city: form.city,
-    post: form.post,
+    nova_post: form.post,
     ttn: form.ttn,
     order_date: form?.order_date?.join('-'),
     status: form?.statusList.join(',')
@@ -155,7 +155,7 @@ function onDatePickerChange() {
           placeholder="000"
           maxlength="3"
           clearable
-          @clear="onFieldClear('post')"
+          @clear="onFieldClear('nova_post')"
         />
       </el-form-item>
       <el-form-item
