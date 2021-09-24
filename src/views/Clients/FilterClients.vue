@@ -71,7 +71,6 @@ function onClose() {
   <el-drawer
     v-model="isVisible"
     title="Fiter orders"
-    size="500px"
     @close="onClose"
   >
     <el-form
@@ -148,3 +147,11 @@ function onClose() {
     </el-form>
   </el-drawer>
 </template>
+
+<style lang="scss">
+.el-drawer {
+  @media screen and (max-width: 960px) {
+    width: 100% !important;
+  }
+}
+</style>

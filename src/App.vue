@@ -76,6 +76,12 @@ input[type=number] {
   }
 }
 
+.el-card {
+  @media screen and (max-width: 960px) {
+    font-size: 14px;
+  }
+}
+
 .el-input,
 .el-select,
 .el-select-v2,
@@ -90,5 +96,14 @@ input[type=number] {
     text-overflow: ellipsis;
     overflow: hidden;
   }
+}
+
+.el-input-group__append,
+.el-input-group__prepend {
+  padding: 0 10px;
+}
+
+.el-space {
+  width: 100%;
 }
 </style>

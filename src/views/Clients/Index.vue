@@ -18,6 +18,8 @@ const formattedFilters = reactive({ ...router.currentRoute.value.query })
 
 const isFilterClientsVisible = ref(false)
 
+const isMobile = window.innerWidth < 961
+
 watch(() => router, async () => {
   if (router.currentRoute.value.name === 'clients' && Object.keys(router.currentRoute.value.query).length) {
     isTableDataLoading.value = true
@@ -68,6 +70,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
     <el-button
       type="primary"
       size="small"
+      class="header__filter-button"
       @click="onFilterOrderClick"
     >
       <i class="el-icon-s-operation el-icon-left"></i>
@@ -78,7 +81,37 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
     :is-visible="isFilterClientsVisible"
     @close="onFilterClientsClose"
   />
+  <el-space
+    v-if="isMobile"
+    direction="vertical"
+    size="large"
+    fill
+  >
+    <el-card
+      v-for="product in clients"
+      :key="product.product_name"
+      :body-style="{ padding: '12px' }"
+    >
+      <el-row
+        v-for="({ label, prop }) in tableColumns"
+        :key="prop"
+        class="card-row"
+      >
+        <el-col :span="11">
+          <b>{{ label }}</b>
+        </el-col>
+        <el-col
+          :span="11"
+          :offset="2"
+          class="card-row__value"
+        >
+          {{ product[prop] }}
+        </el-col>
+      </el-row>
+    </el-card>
+  </el-space>
   <el-table
+    v-else
     v-loading="isTableDataLoading"
     :data="clients"
     border
@@ -97,40 +130,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
       :align="tableColumn.align"
       :sortable="tableColumn.sortable"
       :filters="tableColumn.filters"
-    >
-      <template #header>
-        {{ tableColumn.label }}
-        <el-popover
-          v-if="tableColumn.searchable"
-          placement="bottom"
-          :width="200"
-          trigger="click"
-        >
-          <template #reference>
-            <el-button
-              icon="el-icon-search"
-              size="mini"
-              circle
-              class="el-button__filter-search"
-            />
-          </template>
-          <template #default>
-            <el-input
-              v-model="formattedFilters[tableColumn.prop]"
-              size="mini"
-            />
-            <el-button
-              size="mini"
-              type="text"
-              class="el-popover__search-button"
-              @click="onFilterSearch"
-            >
-              Search
-            </el-button>
-          </template>
-        </el-popover>
-      </template>
-    </el-table-column>
+    />
   </el-table>
   <el-pagination
     :disabled="isTableDataLoading"
@@ -149,12 +149,29 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
   &__header {
     display: flex;
     align-items: center;
+    margin-bottom: 16px;
 
     .header {
       &__title {
         margin-right: auto;
       }
+
+      &__filter-button {
+        margin-left: auto;
+      }
     }
+  }
+}
+
+.card-row {
+  margin-bottom: 8px;
+
+  &__value {
+    overflow-wrap: break-word;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 </style>
