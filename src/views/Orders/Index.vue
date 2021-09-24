@@ -79,6 +79,7 @@ function onEditOrder() {
     &__header {
       display: flex;
       align-items: center;
+      margin-bottom: 10px;
 
       .header {
         &__title {
