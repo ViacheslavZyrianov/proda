@@ -28,7 +28,7 @@ function onAddProductClick() {
       @click="onAddProductClick"
     >
       <i class="el-icon-plus el-icon-left"></i>
-      Add product
+      <span class="button-text">Add product</span>
     </el-button>
   </div>
   <products-table
@@ -47,17 +47,15 @@ function onAddProductClick() {
     align-items: center;
     margin-bottom: 16px;
 
-    @media screen and (max-width: 960px) {
-      flex-direction: column;
-    }
-
     .header {
       &__title {
         margin-right: auto;
+      }
+    }
 
-        @media screen and (max-width: 960px) {
-          margin-bottom: 10px;
-        }
+    .button-text {
+      @media screen and (max-width: 960px) {
+        display: none;
       }
     }
 

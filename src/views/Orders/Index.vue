@@ -44,7 +44,7 @@ function onEditOrder() {
         @click="onFilterOrderClick"
       >
         <i class="el-icon-s-operation el-icon-left"></i>
-        Filter
+        <span class="button-text">Filter</span>
       </el-button>
       <el-button
         type="success"
@@ -52,7 +52,7 @@ function onEditOrder() {
         @click="onAddOrderClick"
       >
         <i class="el-icon-plus el-icon-left"></i>
-        Add order
+        <span class="button-text">Add order</span>
       </el-button>
     </div>
     <orders-table
@@ -84,6 +84,12 @@ function onEditOrder() {
       .header {
         &__title {
           margin-right: auto;
+        }
+      }
+
+      .button-text {
+        @media screen and (max-width: 960px) {
+          display: none;
         }
       }
     }

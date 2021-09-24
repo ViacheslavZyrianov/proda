@@ -74,7 +74,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
       @click="onFilterOrderClick"
     >
       <i class="el-icon-s-operation el-icon-left"></i>
-      Filter
+      <span class="button-text">Filter</span>
     </el-button>
   </div>
   <filter-clients
@@ -158,6 +158,12 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 
       &__filter-button {
         margin-left: auto;
+      }
+    }
+
+    .button-text {
+      @media screen and (max-width: 960px) {
+        display: none;
       }
     }
   }
