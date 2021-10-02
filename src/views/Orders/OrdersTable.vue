@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
 import { useStore } from 'vuex'
+import { ElMessage } from 'element-plus'
 import router from '../../router'
 import modifyRouteQuery from '../../utils/modifyRouteQuery'
 import tableColumns from './tableColumns'
@@ -27,9 +28,9 @@ const defaultSort = {
 const formattedFilters = reactive({})
 Object.assign(formattedFilters, router.currentRoute.value.query)
 
-const isDeleteButtonLoading = ref(false)
-
 const isMobile = window.innerWidth < 961
+
+const currentProductDeletingIndex = ref(null)
 
 watch(() => router, async () => {
   if (router.currentRoute.value.name === 'orders' && Object.keys(router.currentRoute.value.query).length) {
@@ -61,16 +62,16 @@ function onEditOrder(id) {
   emit('edit')
 }
 
-async function onDeleteOrder(id) {
-  isDeleteButtonLoading.value = true
+async function onDeleteOrder(id, index) {
+  currentProductDeletingIndex.value = index
   const data = await store.dispatch('deleteOrder', id)
   if (data.message) ElMessage({ message: data.message, type: 'error' })
   else {
-    const indexOrderToDelete = parsedOrders.findIndex(({ order_id }) => order_id === id)
-    parsedOrders.splice(indexOrderToDelete, 1)
+    const indexOrderToDelete = parsedOrders.value.findIndex(({ order_id }) => order_id === id)
+    parsedOrders.value.splice(indexOrderToDelete, 1)
     ElMessage({ message: data.status, type: 'success' })
   }
-  isDeleteButtonLoading.value = false
+  currentProductDeletingIndex.value = null
 }
 
 function tagType(status) {
@@ -85,6 +86,10 @@ async function onPaginationChange(page) {
   modifyRouteQuery({ page })
 }
 
+function isDeleteButtonLoadingCalculated(productIndex) {
+  return currentProductDeletingIndex.value === null ? false : currentProductDeletingIndex.value === productIndex
+}
+
 modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
@@ -96,7 +101,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
     fill
   >
     <el-card
-      v-for="product in parsedOrders"
+      v-for="(product, productIndex) in parsedOrders"
       :key="product.product_name"
     >
       <el-row
@@ -118,15 +123,15 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
       <el-row justify="end">
         <el-button
           size="mini"
-          @click="onEditOrder(product.product_name)"
+          @click="onEditOrder(product.order_id)"
         >
           Edit
         </el-button>
         <el-button
-          :loading="isDeleteButtonLoading"
+          :loading="isDeleteButtonLoadingCalculated(productIndex)"
           size="mini"
           type="danger"
-          @click="onDeleteOrder(product.product_name)"
+          @click="onDeleteOrder(product.order_id, productIndex)"
         >
           Delete
         </el-button>
@@ -181,10 +186,10 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
           Edit
         </el-button>
         <el-button
-          :loading="isDeleteButtonLoading"
+          :loading="isDeleteButtonLoadingCalculated(scope.$index)"
           size="mini"
           type="danger"
-          @click="onDeleteOrder(scope.row.order_id)"
+          @click="onDeleteOrder(scope.row.order_id, scope.$index)"
         >
           Delete
         </el-button>
