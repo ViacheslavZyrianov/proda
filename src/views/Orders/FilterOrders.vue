@@ -28,14 +28,6 @@ const form = reactive({
 
 const isButtonSubmitLoading = ref(false)
 
-watch(() => router, async () => {
-  if (router.currentRoute.value.name === 'orders' && Object.keys(router.currentRoute.value.query).length) {
-    isButtonSubmitLoading.value = true
-    await store.dispatch('fetchOrders', router.currentRoute.value.query)
-    isButtonSubmitLoading.value = false
-  }
-}, { deep: true, immediate: true })
-
 function onClose() {
   emit('close')
 }
@@ -44,7 +36,13 @@ function onFieldClear(field) {
   modifyRouteQuery({ [field]: null })
 }
 
-function onFiltersSubmitClick() {
+async function filterOrders(query) {
+  isButtonSubmitLoading.value = true
+  await store.dispatch('fetchOrders', query)
+  isButtonSubmitLoading.value = false
+}
+
+async function onFiltersSubmitClick() {
   const filters = {
     first_name: form.first_name,
     last_name: form.last_name,
@@ -56,14 +54,15 @@ function onFiltersSubmitClick() {
     status: form?.statusList.join(',')
   }
 
-  for (let filterKey in filters) {
-    if (!filters[filterKey]) delete filters[filterKey]
-  }
-
   modifyRouteQuery(filters)
+  console.log('modifyRouteQuery(filters)', modifyRouteQuery(filters));
+
+  console.log('query', router.currentRoute.value.query);
+
+  await filterOrders(filters)
 }
 
-function onFiltersResetClick() {
+async function onFiltersResetClick() {
   const { page } = router.currentRoute.value.query
   const query = { page }
 
@@ -75,6 +74,8 @@ function onFiltersResetClick() {
     else delete form[formKey]
     query[formKey] = null
   }
+
+  await filterOrders(query)
 
   modifyRouteQuery(query)
 }
