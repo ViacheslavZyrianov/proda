@@ -55,10 +55,6 @@ async function onFiltersSubmitClick() {
   }
 
   modifyRouteQuery(filters)
-  console.log('modifyRouteQuery(filters)', modifyRouteQuery(filters));
-
-  console.log('query', router.currentRoute.value.query);
-
   await filterOrders(filters)
 }
 
