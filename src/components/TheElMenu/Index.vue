@@ -38,7 +38,7 @@ function onCollapseExpandMenu() {
         @click="onCollapseExpandMenu"
       />
       <img
-        src="/public/img/logo.svg" 
+        src="/img/logo.svg" 
         alt="Logo"
         class="logo"
       >

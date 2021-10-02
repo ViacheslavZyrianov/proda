@@ -20,7 +20,7 @@ function onSubmit() {
       :body-style="{ width: '300px' }"
     >
       <img
-        src="/public/img/logo.svg" 
+        src="/img/logo.svg" 
         alt="Logo"
         class="logo"
       >
