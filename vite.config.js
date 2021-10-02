@@ -4,12 +4,12 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    VitePWA({})
+  ],
   build: {
     target: 'esnext',
     minify: 'esbuild'
-  },
-  plugins: [
-    VitePWA({})
-  ]
+  }
 })
