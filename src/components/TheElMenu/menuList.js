@@ -17,6 +17,11 @@ export default [
   {
     label: 'Orders',
     to: 'orders',
+    icon: 'goods'
+  },
+  {
+    label: 'Costs',
+    to: 'costs',
     icon: 'money'
   }
 ]

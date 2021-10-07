@@ -2,6 +2,7 @@ import dashboard from '../views/Dashboard/Index.vue'
 import products from '../views/Products/Index.vue'
 import clients from '../views/Clients/Index.vue'
 import orders from '../views/Orders/Index.vue'
+import costs from '../views/Costs/Index.vue'
 
 
 export default [
@@ -24,5 +25,10 @@ export default [
     path: '/orders',
     name: 'orders',
     component: orders,
+  },
+  {
+    path: '/costs',
+    name: 'costs',
+    component: costs,
   }
 ]
