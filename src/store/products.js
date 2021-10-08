@@ -19,10 +19,10 @@ const actions = {
       return err.response.data
     }
   },
-  async putProduct(_, { product_name, title, price }) {
+  async putProduct(_, payload) {
     try {
-      const { data } = await axios.put(`products/${product_name}`, { product_name, title, price })
-      let neededProduct = state.products.find(product => product.product_name === product_name)
+      const { data } = await axios.put(`products/${payload.product_name}`, payload)
+      let neededProduct = state.products.find(product => product.product_name === payload.product_name)
       neededProduct = Object.assign(neededProduct, data.data)
       return data
     } catch (err) {

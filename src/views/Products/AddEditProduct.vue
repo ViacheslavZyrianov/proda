@@ -24,6 +24,7 @@ const form = reactive({})
 resetForm()
 
 watch(() => store.state.products.editingProduct, newEditingProduct => {
+  console.log('newEditingProduct', newEditingProduct);
   const productKeys = Object.keys(newEditingProduct)
   if (productKeys.length) {
     productKeys.forEach(productKey => {
@@ -49,7 +50,9 @@ async function onSubmit() {
   if (mode.value === 'add') data = await store.dispatch('postProduct', {
     title: form.title,
     product_name: form.product_name,
-    price: Number(form.price)
+    price: Number(form.price),
+    costs: form.costs,
+    amount: Number(form.amount)
   })
 
   if (mode.value === 'edit') data = await store.dispatch('putProduct', form)
@@ -71,7 +74,9 @@ function resetForm() {
   Object.assign(form, {
     title: null,
     product_name: null,
-    price: null
+    price: null,
+    amount: null,
+    costs: null
   })
 }
 
@@ -125,6 +130,26 @@ function onAddEditProductClosed() {
         <el-input
           v-model="form.price"
           placeholder="99"
+        />
+      </el-form-item>
+      <el-form-item
+        prop="costs"
+        label="Costs"
+        type="number"
+      >
+        <el-input
+          v-model="form.costs"
+          placeholder="99"
+        />
+      </el-form-item>
+      <el-form-item
+        prop="amount"
+        label="Amount"
+        type="number"
+      >
+        <el-input
+          v-model="form.amount"
+          placeholder="1"
         />
       </el-form-item>
       <div class="el-drawer__footer">

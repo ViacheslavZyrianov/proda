@@ -10,6 +10,19 @@ export default [
     minWidth: '200px'
   },
   {
+    label: 'Amount',
+    prop: 'amount',
+    width: '80px',
+    align: 'center'
+  },
+  {
+    label: 'Cost',
+    prop: 'costs',
+    width: '100px',
+    sortable: true,
+    align: 'center'
+  },
+  {
     label: 'Price',
     prop: 'price',
     align: 'center',
