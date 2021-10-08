@@ -8,14 +8,14 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({}),
-    legacyPlugin({
-      targets: [
-        '> 0.5%',
-        'last 2 versions',
-        'Firefox ESR',
-        'not dead',
-      ],
-    })
+    // legacyPlugin({
+    //   targets: [
+    //     // '> 0.5%',
+    //     // 'last 2 versions',
+    //     // 'Firefox ESR',
+    //     // 'not dead',
+    //   ],
+    // })
   ],
   build: {
     target: 'esnext',
