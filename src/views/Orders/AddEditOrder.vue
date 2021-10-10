@@ -20,12 +20,6 @@ const { products } = store.state.products
 const isAddProductDisabled = false
 
 const orderInfoList = reactive([])
-orderInfoList.push({
-  product: products[0].product_name,
-  amount: 1,
-  price: products[0].price,
-  discount: 0
-})
 
 const isSubmitButtonLoading = ref(false)
 
@@ -35,17 +29,19 @@ const refForm = ref(null)
 const form = reactive({})
 resetForm()
 
-watch(() => store.state.orders.editingOrder, newEditingOrder => {
-  if (Object.keys(newEditingOrder).length) {
-    form.first_name = newEditingOrder.first_name
-    form.last_name = newEditingOrder.last_name
-    form.phone = newEditingOrder.phone
-    form.city = newEditingOrder.city
-    form.post = newEditingOrder.nova_post
-    form.ttn = newEditingOrder.ttn
-    form.status = newEditingOrder.status
+watch(() => store.state.orders.editingOrder, _ => {
+  const { editingOrder } = store.state.orders
 
-    const orderInfo = JSON.parse(newEditingOrder.order_info)
+  if (Object.keys(editingOrder).length) {
+    form.first_name = editingOrder.first_name
+    form.last_name = editingOrder.last_name
+    form.phone = editingOrder.phone
+    form.city = editingOrder.city
+    form.post = editingOrder.nova_post
+    form.ttn = editingOrder.ttn
+    form.status = editingOrder.status
+
+    const orderInfo = JSON.parse(editingOrder.order_info)
     Object.keys(orderInfo).forEach(productName => {
       const { amount, discount } = orderInfo[productName]
 
@@ -57,7 +53,7 @@ watch(() => store.state.orders.editingOrder, newEditingOrder => {
       })
     })
 
-    Object.assign(form.info, JSON.parse(newEditingOrder.order_info))
+    Object.assign(form.info, JSON.parse(editingOrder.order_info))
     form.price = calculateTotalPrice(orderInfoList)
   }
 }, { deep: true })
@@ -196,12 +192,6 @@ function onAddEditOrderClose() {
 
 function onAddEditOrderClosed() {
   orderInfoList.length = 0
-  orderInfoList.push({
-    product: products[0].product_name,
-    amount: 1,
-    price: products[0].price,
-    discount: 0
-  })
   store.commit('set_editing_order', {})
   refForm.value?.resetFields()
   resetForm()
@@ -370,7 +360,7 @@ function onAddEditOrderClosed() {
               Discount
             </el-col>
             <el-col
-              :span="4"
+              :span="5"
             >
               <el-input
                 v-model="orderInfo.discount"
@@ -379,7 +369,7 @@ function onAddEditOrderClosed() {
               />
             </el-col>
             <el-col
-              :span="8"
+              :span="7"
               style="text-align: right"
             >
               Total {{ orderInfoPriceCalculated(orderInfo) }} UAH

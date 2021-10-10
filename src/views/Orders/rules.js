@@ -36,11 +36,6 @@ export default {
   ],
   post: [
     {
-      required: true,
-      message: 'The field is required',
-      trigger: 'change'
-    },
-    {
       message: 'Has to be number',
       validator: number,
       trigger: 'change'
