@@ -210,7 +210,7 @@ function onAddEditOrderClosed() {
       :model="form"
       :rules="rules"
       ref="refForm"
-      label-width="100px"
+      label-width="90px"
     >
       <el-form-item
         prop="first_name"
@@ -308,17 +308,8 @@ function onAddEditOrderClosed() {
           direction="vertical"
           alignment="stretch"
         >
-          <el-row
-            :gutter="10"
-          >
-            <el-col
-              :span="4"
-            >
-              Product
-            </el-col>
-            <el-col
-              :span="15"
-            >
+          <el-row :gutter="10">
+            <el-col :span="24">
               <el-select
                 v-model="orderInfo.product"
                 @change="onProductInfoChange"
@@ -331,68 +322,71 @@ function onAddEditOrderClosed() {
                 />
               </el-select>
             </el-col>
-            <el-col
-              :span="5"
-              style="text-align: right"
-            >
-              {{ orderInfo.price }} UAH
-            </el-col>
           </el-row>
           <el-row
             :gutter="10"
+            justify="end"
           >
             <el-col
-              :span="4"
-            >
-              Amount
-            </el-col>
-            <el-col
-              :span="4"
+              :xs="12"
+              :sm="8"
+              :md="4"
             >
               <el-input
                 v-model="orderInfo.amount"
-                type="number"
               />
             </el-col>
             <el-col
-              :span="4"
-            >
-              Discount
-            </el-col>
-            <el-col
-              :span="5"
+              :xs="12"
+              :sm="8"
+              :md="6"
             >
               <el-input
                 v-model="orderInfo.discount"
-                placeholder="%"
                 type="number"
-              />
+                maxlength="3"
+                max="100"
+              >
+                <template #append>
+                  %
+                </template>
+              </el-input>
             </el-col>
             <el-col
-              :span="7"
+              :xs="12"
+              :sm="8"
+              :md="4"
               style="text-align: right"
             >
-              Total {{ orderInfoPriceCalculated(orderInfo) }} UAH
+              {{ orderInfoPriceCalculated(orderInfo) }} ₴
             </el-col>
           </el-row>
-          <el-button
-            v-if="orderInfoList.length > 1"
-            type="danger"
-            size="mini"
-            @click="onRemoveOrderInfoProduct(orderInfo.product)"
+          <el-row
+            justify="end"
           >
-            Remove
-          </el-button>
+            <el-button
+              v-if="orderInfoList.length > 1"
+              type="danger"
+              size="mini"
+              @click="onRemoveOrderInfoProduct(orderInfo.product)"
+            >
+              Remove
+            </el-button>
+          </el-row>
           <el-divider />
         </el-space>
-        <el-button
-          :disabled="isAddProductDisabled"
-          size="mini"
-          type="success"
-          @click="onAddNewProductToProductInfo"
+        <el-row
+          justify="end"
         >
-          Add product
-        </el-button>
+          <el-button
+            :disabled="isAddProductDisabled"
+            size="mini"
+            type="success"
+            @click="onAddNewProductToProductInfo"
+          >
+            Add product
+          </el-button>
+        </el-row>
       </el-form-item>
       <el-form-item
         prop="total"
@@ -400,25 +394,29 @@ function onAddEditOrderClosed() {
       >
         <el-row
           :gutter="10"
+          justify="end"
         >
           <el-col
-            :span="12"
+            :xs="12"
+            :sm="6"
+            :md="12"
+            style="text-align: right"
           >
-            {{ form.price }} UAH
+            {{ form.price }} ₴
           </el-col>
           <el-col
-            :span="6"
-          >
-            Discount
-          </el-col>
-          <el-col
-            :span="6"
+            :xs="12"
+            :sm="4"
+            :md="6"
           >
             <el-input
               v-model="totalDiscount"
               type="tel"
-              placeholder="%"
-            />
+            >
+              <template #append>
+                %
+              </template>
+            </el-input>
           </el-col>
         </el-row>
       </el-form-item>
@@ -461,6 +459,7 @@ function onAddEditOrderClosed() {
     display: flex;
     justify-content: flex-end;
     margin-top: auto;
+    padding-bottom: 20px;
   }
 
   .el-form {
