@@ -1,11 +1,11 @@
 export default [
   {
-    label: 'First name',
+    label: 'Name',
     prop: 'first_name',
     minWidth: '200px'
   },
   {
-    label: 'Last name',
+    label: 'Surname',
     prop: 'last_name',
     minWidth: '200px'
   },
@@ -46,7 +46,7 @@ export default [
     align: 'center'
   },
   {
-    label: 'Total price',
+    label: 'Price',
     prop: 'price',
     width: '150px',
     align: 'center'

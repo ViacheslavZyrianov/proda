@@ -109,15 +109,29 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
         :key="prop"
         class="card-row"
       >
-        <el-col :span="11">
+        <el-col :span="8">
           <b>{{ label }}</b>
         </el-col>
         <el-col
-          :span="11"
+          :span="14"
           :offset="2"
           class="card-row__value"
         >
-          {{ product[prop] }}
+          <el-link
+            v-if="prop === 'phone'"
+            :href="`tel:+380${product[prop]}`"
+            type="primary"
+          >
+            +380{{ product[prop] }}
+          </el-link>
+          <div
+            v-else-if="prop === 'price'"
+          >
+            {{ product[prop] }} ₴
+          </div>
+          <template v-else>
+            {{ product[prop] }}
+          </template>
         </el-col>
       </el-row>
       <el-row justify="end">
@@ -151,12 +165,15 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
       :key="tableColumn.prop"
       :prop="tableColumn.prop"
       :label="tableColumn.label"
-      :width="tableColumn.width"
-      :min-width="tableColumn.minWidth"
+      :column-key="tableColumn.prop"
       :align="tableColumn.align"
-      :sortable="tableColumn.sortable"
-      :filters="tableColumn.filters"
-    />
+      :width="tableColumn.width"
+      :minWidth="tableColumn.minWidth"
+    >
+      <template #default="scope">
+        {{ scope.row[tableColumn.prop] }}
+      </template>
+    </el-table-column>
     <el-table-column
       align="center"
       prop="status"

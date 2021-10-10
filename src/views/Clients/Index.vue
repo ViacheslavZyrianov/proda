@@ -174,6 +174,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 
   &__value {
     overflow-wrap: break-word;
+    white-space: pre-line;
   }
 
   &:last-child {
