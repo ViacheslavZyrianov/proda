@@ -442,7 +442,7 @@ function onAddEditOrderClosed() {
           type="primary"
           @click="onSubmit"
         >
-          Edit
+          Save
         </el-button>
       </div>
     </el-form>
