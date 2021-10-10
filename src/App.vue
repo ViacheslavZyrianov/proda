@@ -96,6 +96,10 @@ input[type=number] {
     text-overflow: ellipsis;
     overflow: hidden;
   }
+
+  &-dropdown__list {
+    overflow: auto !important;
+  }
 }
 
 .el-input-group__append,
