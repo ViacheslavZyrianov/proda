@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import './plugins/axios'
 import store from './store/index'
-import { ElCheckbox, ElCheckboxGroup, ElCheckboxButton, ElDatePicker, ElPopover, ElLoading, ElCard, ElRow, ElCol, ElSpace, ElDivider, ElButton, ElAside, ElMain, ElContainer, ElMenu, ElMenuItem, ElDrawer, ElTable, ElTableColumn, ElDialog, ElForm, ElFormItem, ElInput, ElInputNumber, ElSelect, ElSelectV2, ElTag, ElPagination, ElScrollbar, ElLink } from 'element-plus'
+import { ElCheckbox, ElCheckboxGroup, ElCheckboxButton, ElDatePicker, ElPopover, ElLoading, ElCard, ElRow, ElCol, ElSpace, ElDivider, ElButton, ElAside, ElMain, ElContainer, ElMenu, ElMenuItem, ElDrawer, ElTable, ElTableColumn, ElDialog, ElForm, ElFormItem, ElInput, ElSelect, ElSelectV2, ElTag, ElPagination, ElScrollbar, ElLink } from 'element-plus'
 
 const app = createApp(App)
 
@@ -33,7 +33,6 @@ app.use(ElDialog)
 app.use(ElForm)
 app.use(ElFormItem)
 app.use(ElInput)
-app.use(ElInputNumber)
 app.use(ElSelect)
 app.use(ElSelectV2)
 app.use(ElTag)
