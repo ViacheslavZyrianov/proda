@@ -70,6 +70,16 @@ const mode = computed(() => Object.keys(store.state.orders.editingOrder).length 
 
 const drawerTitle = computed(() => mode.value === 'add' ? 'Add order' : 'Edit order')
 
+const calculatedOrderInfo = computed(() => {
+  return orderInfoList.reduce((acc, { product, amount, discount }) => {
+    acc[product] = {
+      amount: Number(amount),
+      discount: Number(discount)
+    }
+    return acc
+  }, {})
+})
+
 function remoteCityListMethod(query) {
   if (query !== '') {
     novaPostCitiesForTemplate.value = novaPostCities.value.filter((item) => {
@@ -89,15 +99,13 @@ async function onSubmit() {
   
   isSubmitButtonLoading.value = true
 
-  calculateOrderInfoList()
-
   const formDataForAPI = {
     first_name: form.first_name,
     last_name: form.last_name,
     phone: Number(form.phone),
     city: form.city,
     nova_post: Number(form.post),
-    order_info: form.info,
+    order_info: calculatedOrderInfo.value,
     price: Number(form.price),
     discount: Number(totalDiscount.value),
     ttn: Number(form.ttn),
@@ -148,15 +156,6 @@ function calculateDiscountValueWithDiscount(value, discount) {
 
 function calculateTotalPrice(orderList) {
   return orderList.reduce((acc, val) => acc + orderInfoPriceCalculated(val), 0)
-}
-
-function calculateOrderInfoList() {
-  orderInfoList.forEach(({ product, amount, discount }) => {
-    form.info[product] = {
-      amount: Number(amount),
-      discount: Number(discount)
-    }
-  })
 }
 
 function onAddNewProductToProductInfo() {
