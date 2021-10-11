@@ -61,6 +61,10 @@ function onFilterClientsClose() {
   isFilterClientsVisible.value = false
 }
 
+function generateHrefForOrderColumn(firstName, lastName) {
+  return `/orders?page=1&first_name=${firstName}&last_name=${lastName}`
+}
+
 modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
@@ -88,8 +92,8 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
     fill
   >
     <el-card
-      v-for="product in clients"
-      :key="product.product_name"
+      v-for="client in clients"
+      :key="client.product_name"
       :body-style="{ padding: '12px' }"
     >
       <el-row
@@ -107,13 +111,20 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
         >
           <el-link
             v-if="prop === 'phone'"
-            :href="`tel:+380${product[prop]}`"
+            :href="`tel:+380${client[prop]}`"
             type="primary"
           >
-            +380{{ product[prop] }}
+            +380{{ client[prop] }}
+          </el-link>
+          <el-link
+            v-else-if="prop === 'orders'"
+            :href="generateHrefForOrderColumn(client.first_name, client.last_name)"
+            type="primary"
+          >
+            {{ client[prop] }}
           </el-link>
           <template v-else>
-            {{ product[prop] }}
+            {{ client[prop] }}
           </template>
         </el-col>
       </el-row>
@@ -144,6 +155,13 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
         <template v-if="tableColumn.prop === 'phone'">
           +380{{ scope.row[tableColumn.prop] }}
         </template>
+          <el-link
+            v-else-if="tableColumn.prop === 'orders'"
+            :href="generateHrefForOrderColumn(scope.row.first_name, scope.row.last_name)"
+            type="primary"
+          >
+            {{ scope.row[tableColumn.prop] }}
+          </el-link>
         <template v-else>
           {{ scope.row[tableColumn.prop] }}
         </template>
