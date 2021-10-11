@@ -23,5 +23,10 @@ export default [
     label: 'Costs',
     to: 'costs',
     icon: 'money'
+  },
+  {
+    label: 'Info',
+    to: 'info',
+    icon: 'info'
   }
 ]

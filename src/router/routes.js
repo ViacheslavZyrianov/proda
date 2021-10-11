@@ -3,7 +3,7 @@ import products from '../views/Products/Index.vue'
 import clients from '../views/Clients/Index.vue'
 import orders from '../views/Orders/Index.vue'
 import costs from '../views/Costs/Index.vue'
-
+import info from '../views/Info/Index.vue'
 
 export default [
   {
@@ -30,5 +30,10 @@ export default [
     path: '/costs',
     name: 'costs',
     component: costs,
+  },
+  {
+    path: '/info',
+    name: 'info',
+    component: info,
   }
 ]

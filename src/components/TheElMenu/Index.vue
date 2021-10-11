@@ -52,7 +52,6 @@ function onLogOutClick () {
 <style lang="scss" scoped>
 .el-menu {
   max-width: 200px;
-  padding: 20px 0;
 
   &__header {
     display: flex;
