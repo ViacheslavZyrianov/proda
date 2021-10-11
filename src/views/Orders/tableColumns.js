@@ -40,6 +40,12 @@ export default [
     align: 'center'
   },
   {
+    label: 'Comment',
+    prop: 'comment',
+    width: '140px',
+    align: 'left'
+  },
+  {
     label: 'Info',
     prop: 'order_info',
     width: '220px',

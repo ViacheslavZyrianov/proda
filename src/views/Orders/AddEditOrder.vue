@@ -39,6 +39,7 @@ watch(() => store.state.orders.editingOrder, _ => {
     form.city = editingOrder.city
     form.post = editingOrder.nova_post
     form.ttn = editingOrder.ttn
+    form.comment = editingOrder.comment
     form.status = editingOrder.status
 
     const orderInfo = JSON.parse(editingOrder.order_info)
@@ -109,6 +110,7 @@ async function onSubmit() {
     price: Number(form.price),
     discount: Number(totalDiscount.value),
     ttn: Number(form.ttn),
+    comment: form.comment,
     status: form.status
   }
 
@@ -144,6 +146,7 @@ function resetForm() {
     city: '',
     post: null,
     ttn: null,
+    comment: '',
     status: null,
     info: {},
     price: 0
@@ -277,6 +280,18 @@ function onAddEditOrderClosed() {
           type="tel"
           placeholder="12345678912345"
           maxlength="14"
+        />
+      </el-form-item>
+      <el-form-item
+        prop="comment"
+        label="Comment"
+      >
+        <el-input
+          v-model="form.comment"
+          type="textarea"
+          placeholder="Comment"
+          autosize
+          class="comment"
         />
       </el-form-item>
       <el-form-item
@@ -469,6 +484,12 @@ function onAddEditOrderClosed() {
 
   .el-divider--horizontal {
     margin: 18px 0;
+  }
+}
+
+.comment {
+  textarea {
+    max-height: 100px;
   }
 }
 </style>
