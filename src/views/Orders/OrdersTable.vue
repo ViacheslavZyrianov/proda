@@ -171,7 +171,12 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
       :minWidth="tableColumn.minWidth"
     >
       <template #default="scope">
-        {{ scope.row[tableColumn.prop] }}
+        <template v-if="tableColumn.prop === 'phone'">
+          +380{{ scope.row[tableColumn.prop] }}
+        </template>
+        <template v-else>
+          {{ scope.row[tableColumn.prop] }}
+        </template>
       </template>
     </el-table-column>
     <el-table-column

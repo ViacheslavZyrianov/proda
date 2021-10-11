@@ -12,7 +12,7 @@ export default [
   {
     label: 'Phone',
     prop: 'phone',
-    width: '130px',
+    width: '180px',
     align: 'center'
   },
   {
