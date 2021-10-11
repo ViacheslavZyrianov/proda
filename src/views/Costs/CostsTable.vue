@@ -11,6 +11,8 @@ const store = useStore()
 
 const emit = defineEmits(['edit'])
 
+const isMobile = window.innerWidth < 961
+
 defineProps({
   isVisible: Boolean
 })
@@ -76,7 +78,52 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
 <template>
+  <el-space
+    v-if="isMobile"
+    direction="vertical"
+    size="large"
+    fill
+  >
+    <el-card
+      v-for="(cost, costIndex) in store.state.costs.costs"
+      :key="cost.cost_id"
+    >
+      <el-row
+        v-for="({ label, prop }) in tableColumns"
+        :key="prop"
+        class="card-row"
+      >
+        <el-col :span="8">
+          <b>{{ label }}</b>
+        </el-col>
+        <el-col
+          :span="14"
+          :offset="2"
+          class="card-row__value"
+        >
+          {{ cost[prop] }}
+        </el-col>
+      </el-row>
+      <el-row justify="end">
+        <el-button
+          size="mini"
+          @click="onEditCost(cost.cost_id)"
+        >
+          Edit
+        </el-button>
+        <el-button
+          :loading="isDeleteButtonLoadingCalculated(costIndex)"
+          size="mini"
+          type="danger"
+          @click="onDeleteCost(cost.cost_id, costIndex)"
+        >
+          Delete
+        </el-button>
+      </el-row>
+    </el-card>
+  </el-space>
   <el-table
+    v-else
     v-loading="isTableDataLoading"
     :data="store.state.costs.costs"
     border
