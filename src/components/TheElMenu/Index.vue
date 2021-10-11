@@ -19,10 +19,6 @@ function onLogOutClick () {
     window.location.reload()
   }
 }
-
-function onCollapseExpandMenu() {
-  isCollapsed.value = !isCollapsed.value
-}
 </script>
 
 <template>
@@ -30,19 +26,6 @@ function onCollapseExpandMenu() {
     :default-active="`${defaultActive}`"
     :collapse="isCollapsed"
   >
-    <div class="el-menu__header">
-      <el-button
-        :icon="collapseButtonIcon"
-        circle
-        class="el-menu__expand-collapse-button"
-        @click="onCollapseExpandMenu"
-      />
-      <img
-        src="/img/logo.svg" 
-        alt="Logo"
-        class="logo"
-      >
-    </div>
     <el-menu-item
       v-for="(menuItem, menuItemIndex) in menuList"
       :key="menuItem.to"
