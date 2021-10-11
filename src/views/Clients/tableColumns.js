@@ -18,7 +18,8 @@ export default [
   {
     label: 'City',
     prop: 'city',
-    width: '300px'
+    width: '300px',
+    align: 'center'
   },
   {
     label: 'Orders',

@@ -105,7 +105,16 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
           :offset="2"
           class="card-row__value"
         >
-          {{ product[prop] }}
+          <el-link
+            v-if="prop === 'phone'"
+            :href="`tel:+380${product[prop]}`"
+            type="primary"
+          >
+            +380{{ product[prop] }}
+          </el-link>
+          <template v-else>
+            {{ product[prop] }}
+          </template>
         </el-col>
       </el-row>
     </el-card>
@@ -130,7 +139,16 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
       :align="tableColumn.align"
       :sortable="tableColumn.sortable"
       :filters="tableColumn.filters"
-    />
+    >
+      <template #default="scope">
+        <template v-if="tableColumn.prop === 'phone'">
+          +380{{ scope.row[tableColumn.prop] }}
+        </template>
+        <template v-else>
+          {{ scope.row[tableColumn.prop] }}
+        </template>
+      </template>
+    </el-table-column>
   </el-table>
   <el-pagination
     :disabled="isTableDataLoading"
