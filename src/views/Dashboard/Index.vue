@@ -1,16 +1,16 @@
 <script setup>
 import { useStore } from 'vuex'
-import { onMounted } from 'vue'
-import { Chart, registerables } from 'chart.js'
+import chart from './Chart.vue'
 
 const store = useStore()
 
 await Promise.all([
   store.dispatch('fetchOrders', { page: 0 }),
+  store.dispatch('fetchCosts', { page: 0 }),
   store.dispatch('fetchProducts')
 ])
 
-const { orders: { orders }, products: { products } } = store.state
+const { orders: { orders }, products: { products }, costs: { costsSpent } } = store.state
 
 const orderInfoData = orders.reduce((acc, { order_info }) => {
   const orderInfo = JSON.parse(order_info)
@@ -23,47 +23,67 @@ const orderInfoData = orders.reduce((acc, { order_info }) => {
 
 const orderInfoForChart = {
   labels: Object.keys(orderInfoData).map(key => products.find(({ product_name }) => key === product_name).title),
-  data: Object.values(orderInfoData)
+  data: Object.values(orderInfoData),
+  colors: Object.keys(orderInfoData)
 }
 
-Chart.register(...registerables)
+const costsEarned = orders.reduce((acc, val) => {
+  acc += val.price
+  return acc
+}, 0)
 
-onMounted(() => {
-  const ctxTotalSelledProducts = document.getElementById('totalSelledProducts')
-  new Chart(ctxTotalSelledProducts, {
-    type: 'pie',
-    data: {
-        labels: orderInfoForChart.labels,
-        datasets: [{
-            data: orderInfoForChart.data,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: 'rgb(0, 0, 0)',
-            borderWidth: 1
-        }]
-    },
-    responsive: true
-  })
-})
+const totalEarnedToTotalSpentCosts = {
+  data: [
+    costsEarned,
+    costsSpent
+  ],
+  labels: ['Earned', 'Spent'],
+  colors: ['earned', 'spent']
+}
 </script>
 
 <template>
   <h1>dashboard</h1>
-  <el-row>
+  <el-row :gutter="16">
     <el-col
       :xs="24"
       :sm="24"
-      :md="12"
+      :md="8"
     >
       <el-card>
-        <canvas id="totalSelledProducts"/>
+        <chart
+          type="pie"
+          :data="orderInfoForChart.data"
+          :labels="orderInfoForChart.labels"
+          :colors="orderInfoForChart.colors"
+          canvasId="totalSoldProducts"
+        />
+      </el-card>
+    </el-col>
+    <el-col
+      :xs="24"
+      :sm="24"
+      :md="8"
+    >
+      <el-card>
+        <chart
+          type="bar"
+          :data="totalEarnedToTotalSpentCosts.data"
+          :labels="totalEarnedToTotalSpentCosts.labels"
+          :colors="totalEarnedToTotalSpentCosts.colors"
+          canvasId="totalEarnedToTotalSpentCosts"
+        />
       </el-card>
     </el-col>
   </el-row>
 </template>
+
+<style lang="scss">
+.el-card {
+  height: 100%;
+
+  &__body {
+    height: 100%;
+  }
+}
+</style>
