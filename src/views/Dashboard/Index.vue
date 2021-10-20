@@ -43,7 +43,7 @@ const totalEarnedToTotalSpentCosts = {
 </script>
 
 <template>
-  <h1>dashboard</h1>
+  <h1 class="header__title">Dashboard</h1>
   <el-row :gutter="16">
     <el-col
       :xs="24"
@@ -84,6 +84,13 @@ const totalEarnedToTotalSpentCosts = {
 
   &__body {
     height: 100%;
+  }
+}
+
+.header {
+  &__title {
+    margin-right: auto;
+    margin-bottom: 24px;
   }
 }
 </style>
