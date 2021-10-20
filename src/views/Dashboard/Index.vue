@@ -5,8 +5,8 @@ import chart from './Chart.vue'
 const store = useStore()
 
 await Promise.all([
-  store.dispatch('fetchOrders', { page_count: 0 }),
-  store.dispatch('fetchCosts', { page_count: 0 }),
+  store.dispatch('fetchOrders', { page_size: 0 }),
+  store.dispatch('fetchCosts', { page_size: 0 }),
   store.dispatch('fetchProducts')
 ])
 
