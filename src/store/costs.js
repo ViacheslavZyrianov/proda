@@ -23,9 +23,9 @@ const actions = {
       return err.response.data
     }
   },
-  async putCost(_, { cost_id, title, price }) {
+  async putCost(_, { cost_id, title, price, order_date }) {
     try {
-      const { data } = await axios.put(`costs/${cost_id}`, { title, price })
+      const { data } = await axios.put(`costs/${cost_id}`, { title, price, order_date })
       let neededCost = state.costs.find(cost => cost.cost_id === cost_id)
       neededCost = Object.assign(neededCost, data.data)
       return data
