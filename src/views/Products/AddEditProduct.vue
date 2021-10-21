@@ -24,7 +24,6 @@ const form = reactive({})
 resetForm()
 
 watch(() => store.state.products.editingProduct, newEditingProduct => {
-  console.log('newEditingProduct', newEditingProduct);
   const productKeys = Object.keys(newEditingProduct)
   if (productKeys.length) {
     productKeys.forEach(productKey => {
