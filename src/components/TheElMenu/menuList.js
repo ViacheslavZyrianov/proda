@@ -28,5 +28,10 @@ export default [
     label: 'Info',
     to: 'info',
     icon: 'info'
+  },
+  {
+    label: 'Storage',
+    to: 'storage',
+    icon: 'refrigerator'
   }
 ]

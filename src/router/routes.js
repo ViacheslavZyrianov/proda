@@ -4,6 +4,7 @@ import clients from '../views/Clients/Index.vue'
 import orders from '../views/Orders/Index.vue'
 import costs from '../views/Costs/Index.vue'
 import info from '../views/Info/Index.vue'
+import storage from '../views/Storage/Index.vue'
 
 export default [
   {
@@ -35,5 +36,10 @@ export default [
     path: '/info',
     name: 'info',
     component: info,
+  },
+  {
+    path: '/storage',
+    name: 'storage',
+    component: storage,
   }
 ]
