@@ -23,6 +23,8 @@ const orderInfoList = reactive([])
 
 const isSubmitButtonLoading = ref(false)
 
+const isSetStatusButtonLoading = ref(false)
+
 const totalDiscount = ref(0)
 
 const refForm = ref(null)
@@ -81,6 +83,10 @@ const calculatedOrderInfo = computed(() => {
   }, {})
 })
 
+const activeStatusIndex = computed(_ => statusList.findIndex(({ value }) => value === form.status))
+
+const isSetNextStatusButtonVisible = computed(_ => activeStatusIndex.value < statusList.length - 1)
+
 function remoteCityListMethod(query) {
   if (query !== '') {
     novaPostCitiesForTemplate.value = novaPostCities.value.filter((item) => {
@@ -117,11 +123,10 @@ async function onSubmit() {
   let data = null
   if (mode.value === 'add') data = await store.dispatch('postOrder', formDataForAPI)
   if (mode.value === 'edit') {
-    const { order_id: id, status } = store.state.orders.editingOrder
+    const { order_id: id } = store.state.orders.editingOrder
     data = await store.dispatch('putOrder', {
       payload: formDataForAPI,
-      id,
-      status
+      id
     })
   }
 
@@ -197,6 +202,27 @@ function onAddEditOrderClosed() {
   store.commit('set_editing_order', {})
   refForm.value?.resetFields()
   resetForm()
+}
+
+async function onSetNextStatus() {
+  isSetStatusButtonLoading.value = true
+  
+  const { order_id: id } = store.state.orders.editingOrder
+  let data = await store.dispatch('patchOrderStatus', {
+    status: statusList[activeStatusIndex.value + 1].value,
+    id
+  })
+
+  isSetStatusButtonLoading.value = false
+
+  if (data.message) ElMessage({ message: data.message, type: 'error' })
+  else {
+    if (mode.value === 'add') {
+      const { length } = store.state.orders.orders
+      store.state.orders.orders[length] = data.data
+    }
+    ElMessage({ message: data.status, type: 'success' })
+  }
 }
 </script>
 
@@ -298,18 +324,36 @@ function onAddEditOrderClosed() {
         v-if="mode === 'edit'"
         prop="status"
         label="Status"
+        class="hidden-sm-and-down"
       >
-        <el-select
-          v-model="form.status"
-          type="primary"
+        <el-steps
+          :active="activeStatusIndex"
+          align-center
+          finish-status="wait"
         >
-          <el-option
-            v-for="({ text, value }) in statusList"
+          <el-step
+            v-for="({ text, value, icon }) in statusList"
             :key="value"
-            :value="value"
-            :label="text"
-          />
-        </el-select>
+            :title="text"
+            :icon="icon"
+          >
+          </el-step>
+        </el-steps>
+        <el-row v-if="isSetNextStatusButtonVisible">
+          <el-col
+            :span="8"
+            :offset="16"
+          >
+            <el-button
+              size="mini"
+              type="primary"
+              :loading="isSetStatusButtonLoading"
+              @click="onSetNextStatus"
+            >
+              Set next status
+            </el-button>
+          </el-col>
+        </el-row>
       </el-form-item>
       <el-form-item
         prop="orderInfo"
@@ -491,5 +535,13 @@ function onAddEditOrderClosed() {
   textarea {
     max-height: 100px;
   }
+}
+
+.el-step__icon-inner {
+  font-size: 20px !important;
+}
+
+.el-step.is-horizontal .el-step__line {
+  top: 16px;
 }
 </style>

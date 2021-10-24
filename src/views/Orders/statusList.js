@@ -1,18 +1,22 @@
 export default [
   {
     text: 'New',
-    value: 'new'
+    value: 'new',
+    icon: 'el-icon-plus'
   },
   {
     text: 'Cooked',
-    value: 'cooked'
+    value: 'cooked',
+    icon: 'el-icon-fork-spoon'
   },
   {
     text: 'Sent',
-    value: 'sent'
+    value: 'sent',
+    icon: 'el-icon-takeaway-box'
   },
   {
     text: 'Delivered',
-    value: 'delivered'
+    value: 'delivered',
+    icon: 'el-icon-check'
   }
 ]

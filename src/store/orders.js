@@ -31,6 +31,16 @@ const actions = {
       return err.response.data
     }
   },
+  async patchOrderStatus(_, { status, id }) {
+    try {
+      const { data } = await axios.patch(`orders/${id}/status`, { status })
+      let neededOrder = state.orders.find(({ order_id }) => order_id === id)
+      neededOrder = Object.assign(neededOrder, data.data)
+      return data
+    } catch (err) {
+      return err.response.data
+    }
+  },
   async deleteOrder(_, payload) {
     try {
       const { data } = await axios.delete(`orders/${payload}`)

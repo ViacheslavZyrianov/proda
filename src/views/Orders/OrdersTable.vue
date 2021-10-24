@@ -20,6 +20,8 @@ const isTableDataLoading = ref(false)
 
 const currentPage = ref(Number(router.currentRoute.value.query.page))
 
+const isSetStatusButtonLoading = ref(false)
+
 const defaultSort = {
   prop: router.currentRoute.value.query.sort_by,
   order: router.currentRoute.value.query.sort_way + 'ending'
@@ -52,7 +54,7 @@ function parseOrderInfo(orderInfo) {
   }).join('')
 }
 
-const parsedOrders = computed(() => store.state.orders.orders.map(order => ({
+const parsedOrders = computed(_ => store.state.orders.orders.map(order => ({
   ...order,
   order_info: parseOrderInfo(order.order_info)
 })))
@@ -88,6 +90,31 @@ async function onPaginationChange(page) {
 
 function isDeleteButtonLoadingCalculated(productIndex) {
   return currentProductDeletingIndex.value === null ? false : currentProductDeletingIndex.value === productIndex
+}
+
+function currentStatusData(statusValue) {
+  const currentStatusIndex = statusList.findIndex(({ value }) => value === statusValue)
+  return statusList[currentStatusIndex + 1]
+}
+
+function isButtonSetStatusVisible(status) {
+  return statusList[statusList.length - 1].value !== status
+}
+
+async function onSetStatus(id, status) {
+  let data = await store.dispatch('patchOrderStatus', {
+    status: currentStatusData(status).value,
+    id
+  })
+
+  isSetStatusButtonLoading.value = false
+
+  if (data.message) ElMessage({ message: data.message, type: 'error' })
+  else {
+    const { length } = store.state.orders.orders
+    store.state.orders.orders[length] = data.data
+    ElMessage({ message: data.status, type: 'success' })
+  }
 }
 
 modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
@@ -134,21 +161,41 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
           </template>
         </el-col>
       </el-row>
-      <el-row justify="end">
-        <el-button
-          size="mini"
-          @click="onEditOrder(product.order_id)"
-        >
-          Edit
-        </el-button>
-        <el-button
-          :loading="isDeleteButtonLoadingCalculated(productIndex)"
-          size="mini"
-          type="danger"
-          @click="onDeleteOrder(product.order_id, productIndex)"
-        >
-          Delete
-        </el-button>
+      <el-row
+        justify="end"
+        align="center"
+      >
+        <el-col :span="10">
+          <el-button
+            v-if="isButtonSetStatusVisible(product.status)"
+            :loading="isSetStatusButtonLoading"
+            size="mini"
+            @click="onSetStatus(product.order_id, product.status)"
+          >
+            Set {{ currentStatusData(product.status).text }}
+          </el-button>
+          <el-tag
+            v-else
+            type="success"
+          >
+            Delivered
+          </el-tag>
+        </el-col>
+        <el-col :span="14">
+          <el-button
+            size="mini"
+            type="primary"
+            icon="el-icon-edit"
+            @click="onEditOrder(product.order_id)"
+          />
+          <el-button
+            :loading="isDeleteButtonLoadingCalculated(productIndex)"
+            size="mini"
+            type="danger"
+            icon="el-icon-delete"
+            @click="onDeleteOrder(product.order_id, productIndex)"
+          />
+        </el-col>
       </el-row>
     </el-card>
   </el-space>
