@@ -176,7 +176,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
         </el-button>
         <el-tag
           v-else
-          type="success"
+          type="info"
           style="margin-right: auto"
         >
           Delivered

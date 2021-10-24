@@ -34,6 +34,7 @@ const actions = {
   async patchOrderStatus(_, { status, id }) {
     try {
       const { data } = await axios.patch(`orders/${id}/status`, { status })
+      if (status === 'sent') await axios.put(`orders/${id}/sent`)
       let neededOrder = state.orders.find(({ order_id }) => order_id === id)
       neededOrder = Object.assign(neededOrder, data.data)
       return data
