@@ -11,17 +11,17 @@ const emit = defineEmits(['edit'])
 
 const isTableDataLoading = ref(false)
 
-const isDeleteButtonLoading = ref(false)
-
 const isMobile = window.innerWidth < 961
+
+const currentStorageDeletingIndex = ref(null)
 
 function onEditStorage(storageName) {
   store.commit('set_editing_storage', store.state.storage.storage.find(({ storage_name }) => storage_name === storageName))
   emit('edit')
 }
 
-async function onDeleteStorage(storageName) {
-  isDeleteButtonLoading.value = true
+async function onDeleteStorage(storageName, index) {
+  currentStorageDeletingIndex.value = index
   const data = await store.dispatch('deleteStorage', storageName)
   if (data.message) ElMessage({ message: data.message, type: 'error' })
   else {
@@ -29,7 +29,11 @@ async function onDeleteStorage(storageName) {
     store.state.storage.storage.splice(indexStorageToDelete, 1)
     ElMessage({ message: data.status, type: 'success' })
   }
-  isDeleteButtonLoading.value = false
+  currentStorageDeletingIndex.value = null
+}
+
+function isDeleteButtonLoadingCalculated(index) {
+  return currentStorageDeletingIndex.value === null ? false : currentStorageDeletingIndex.value === index
 }
 </script>
 
@@ -41,7 +45,7 @@ async function onDeleteStorage(storageName) {
     fill
   >
     <el-card
-      v-for="storage in store.state.storage.storage"
+      v-for="(storage, storageIndex) in store.state.storage.storage"
       :key="storage.storage_name"
     >
       <el-row
@@ -68,10 +72,10 @@ async function onDeleteStorage(storageName) {
           Edit
         </el-button>
         <el-button
-          :loading="isDeleteButtonLoading"
+          :loading="isDeleteButtonLoadingCalculated(storageIndex)"
           size="mini"
           type="danger"
-          @click="onDeleteStorage(storage.storage_name)"
+          @click="onDeleteStorage(storage.storage_name, storageIndex)"
         >
           Delete
         </el-button>
@@ -108,10 +112,10 @@ async function onDeleteStorage(storageName) {
           Edit
         </el-button>
         <el-button
-          :loading="isDeleteButtonLoading"
+          :loading="isDeleteButtonLoadingCalculated(scope.$index)"
           size="mini"
           type="danger"
-          @click="onDeleteStorage(scope.row.storage_name)"
+          @click="onDeleteStorage(scope.row.storage_name, scope.$index)"
         >
           Delete
         </el-button>
