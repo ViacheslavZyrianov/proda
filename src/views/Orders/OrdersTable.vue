@@ -165,37 +165,35 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
         justify="end"
         align="center"
       >
-        <el-col :span="10">
-          <el-button
-            v-if="isButtonSetStatusVisible(product.status)"
-            :loading="isSetStatusButtonLoading"
-            size="mini"
-            @click="onSetStatus(product.order_id, product.status)"
-          >
-            Set {{ currentStatusData(product.status).text }}
-          </el-button>
-          <el-tag
-            v-else
-            type="success"
-          >
-            Delivered
-          </el-tag>
-        </el-col>
-        <el-col :span="14">
-          <el-button
-            size="mini"
-            type="primary"
-            icon="el-icon-edit"
-            @click="onEditOrder(product.order_id)"
-          />
-          <el-button
-            :loading="isDeleteButtonLoadingCalculated(productIndex)"
-            size="mini"
-            type="danger"
-            icon="el-icon-delete"
-            @click="onDeleteOrder(product.order_id, productIndex)"
-          />
-        </el-col>
+        <el-button
+          v-if="isButtonSetStatusVisible(product.status)"
+          :loading="isSetStatusButtonLoading"
+          size="mini"
+          style="margin-right: auto"
+          @click="onSetStatus(product.order_id, product.status)"
+        >
+          Set <b>{{ currentStatusData(product.status).text }}</b>
+        </el-button>
+        <el-tag
+          v-else
+          type="success"
+          style="margin-right: auto"
+        >
+          Delivered
+        </el-tag>
+        <el-button
+          size="mini"
+          type="primary"
+          icon="el-icon-edit"
+          @click="onEditOrder(product.order_id)"
+        />
+        <el-button
+          :loading="isDeleteButtonLoadingCalculated(productIndex)"
+          size="mini"
+          type="danger"
+          icon="el-icon-delete"
+          @click="onDeleteOrder(product.order_id, productIndex)"
+        />
       </el-row>
     </el-card>
   </el-space>
