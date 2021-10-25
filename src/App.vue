@@ -64,6 +64,7 @@ input[type=number] {
 
 .el-main {
   height: 100vh;
+  width: calc(100vw - 64px);
   overflow-x: hidden;
   overflow-y: auto;
 }

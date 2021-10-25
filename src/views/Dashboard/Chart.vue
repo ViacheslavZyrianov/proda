@@ -23,6 +23,11 @@ const props = defineProps({
   canvasId: {
     type: String,
     required: true
+  },
+  isLabelsVisible: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 
@@ -30,21 +35,45 @@ const backgroundColor = props.colors.map(color => chartColors[color])
 
 onMounted(() => {
   const ctx = document.getElementById(props.canvasId)
+  
+  let datasets = null
+
+  if (props.type.includes(',')) {
+    datasets = props.type.split(',').map((type, index) => ({
+      type,
+      data: props.data[index],
+      backgroundColor,
+      borderColor: 'rgb(0, 0, 0)',
+      borderWidth: 1
+    }))
+  } else {
+    datasets = [{
+      type: props.type,
+      data: props.data,
+      backgroundColor,
+      borderColor: 'rgb(0, 0, 0)',
+      borderWidth: 1
+    }]
+  }
+  
   new Chart(ctx, {
-    type: props.type,
     data: {
       labels: props.labels,
-      datasets: [{
-        label: 'Chart',
-        data: props.data,
-        backgroundColor,
-        borderColor: 'rgb(0, 0, 0)',
-        borderWidth: 1
-      }]
+      datasets
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: props.isLabelsVisible
+        },
+        tooltip: {
+          callbacks: {
+            label: ({ raw }) => raw
+          }
+        }
+      }
     }
   })
 })

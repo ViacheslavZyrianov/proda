@@ -4,7 +4,8 @@ import axios from 'axios'
 const state = reactive({
   orders: [],
   ordersTotal: 0,
-  editingOrder: {}
+  editingOrder: {},
+  profit: 0
 })
 
 const actions = {
@@ -49,6 +50,14 @@ const actions = {
     } catch (err) {
       return err.response.data
     }
+  },
+  async fetchOrdersProfit({ commit }) {
+    try {
+      const { data } = await axios.get('orders/profit')
+      commit('set_orders_profit', data.profit)
+    } catch (err) {
+      return err.response.data
+    }
   }
 }
 
@@ -61,6 +70,9 @@ const mutations = {
   },
   set_orders_total(state, payload) {
     state.ordersTotal = payload
+  },
+  set_orders_profit(state, payload) {
+    state.profit = payload
   }
 }
 
