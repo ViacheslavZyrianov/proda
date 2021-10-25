@@ -22,7 +22,7 @@ const orderInfoData = orders.reduce((acc, { order_info }) => {
 }, {})
 
 const orderInfoForChart = {
-  labels: Object.keys(orderInfoData).map(key => products.find(({ product_name }) => key === product_name).title),
+  labels: Object.keys(orderInfoData).map(key => products.find(({ product_name }) => key === product_name)?.title),
   data: Object.values(orderInfoData),
   colors: Object.keys(orderInfoData)
 }
@@ -50,7 +50,7 @@ const totalEarnedToTotalSpentCosts = {
       :sm="24"
       :md="8"
     >
-      <el-card>
+      <el-card class="chart-card">
         <chart
           type="pie"
           :data="orderInfoForChart.data"
@@ -65,7 +65,7 @@ const totalEarnedToTotalSpentCosts = {
       :sm="24"
       :md="8"
     >
-      <el-card>
+      <el-card class="chart-card">
         <chart
           type="bar"
           :data="totalEarnedToTotalSpentCosts.data"
@@ -79,12 +79,9 @@ const totalEarnedToTotalSpentCosts = {
 </template>
 
 <style lang="scss">
-.el-card {
+.chart-card.el-card,
+.chart-card.el-card .el-card__body {
   height: 100%;
-
-  &__body {
-    height: 100%;
-  }
 }
 
 .header {
