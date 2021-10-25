@@ -117,7 +117,8 @@ async function onSubmit() {
     discount: Number(totalDiscount.value),
     ttn: Number(form.ttn),
     comment: form.comment,
-    status: form.status
+    status: form.status,
+    paid: form.isPaid
   }
 
   let data = null
@@ -153,6 +154,7 @@ function resetForm() {
     ttn: null,
     comment: '',
     status: null,
+    isPaid: false,
     info: {},
     price: 0
   })
@@ -318,6 +320,19 @@ async function onSetNextStatus() {
           placeholder="Comment"
           autosize
           class="comment"
+        />
+      </el-form-item>
+      <el-form-item
+        prop="paid"
+        label="Is paid"
+      >
+        <el-switch
+          v-model="form.isPaid"
+          style="display: block; padding: 9px 0;"
+          active-color="#13ce66"
+          inactive-color="#ff4949"
+          active-text="Paid"
+          inactive-text="Unpaid"
         />
       </el-form-item>
       <el-form-item

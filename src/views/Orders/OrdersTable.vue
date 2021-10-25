@@ -117,6 +117,19 @@ async function onSetStatus(id, status) {
   }
 }
 
+// function priceTagType(paid) {
+//   if (paid === 'FALSE') return 'error'
+//   if (paid === 'TRUE') return 'success'
+//   return 'primary'
+// }
+
+function paidIconClassList(paid) {
+  const classList = ['el-icon-money']
+  if (paid === 'TRUE') classList.push('el-icon-money_paid')
+  else if (paid === 'FALSE') classList.push('el-icon-money_not-paid')
+  return classList
+}
+
 modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
@@ -135,6 +148,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
         v-for="({ label, prop }) in tableColumns"
         :key="prop"
         class="card-row"
+        align="middle"
       >
         <el-col :span="8">
           <b>{{ label }}</b>
@@ -154,7 +168,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
           <div
             v-else-if="prop === 'price'"
           >
-            {{ product[prop] }} ₴
+            {{ product[prop] }} ₴ <i :class="paidIconClassList(product.paid)"></i>
           </div>
           <template v-else>
             {{ product[prop] }}
@@ -275,7 +289,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
   />
 </template>
 
-<style>
+<style lang="scss" scoped>
 .el-table .cell {
   word-break: normal;
   white-space: pre-wrap;
@@ -293,5 +307,17 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 
 .el-popover__search-button {
   float: right;
+}
+
+.el-icon-money {
+  color: #3F9EFF;
+  
+  &_paid {
+    color: #67C23A;
+  }
+
+  &_not-paid {
+    color: #F56C6B;
+  }
 }
 </style>
