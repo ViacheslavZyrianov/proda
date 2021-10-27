@@ -12,19 +12,12 @@ await Promise.all([
 
 const { orders: { orders }, products: { products }, costs: { costsSpent } } = store.state
 
-const orderInfoData = orders.reduce((acc, { order_info }) => {
-  const orderInfo = JSON.parse(order_info)
-  for (let key in orderInfo) {
-    if (acc[key]) acc[key] += orderInfo[key].amount
-    else acc[key] = 1
-  }
-  return acc
-}, {})
+const totalProductsSold = formatOrdersToProductsAndAmount(orders)
 
-const orderInfoForChart = {
-  data: Object.values(orderInfoData),
-  labels: Object.keys(orderInfoData).map(key => products.find(({ product_name }) => key === product_name)?.title),
-  colors: Object.keys(orderInfoData)
+const productsSoldDataForChart = {
+  data: Object.values(totalProductsSold),
+  labels: Object.keys(totalProductsSold).map(key => products.find(({ product_name }) => key === product_name)?.title),
+  colors: Object.keys(totalProductsSold)
 }
 
 const costsEarned = orders.reduce((acc, val) => {
@@ -44,13 +37,34 @@ const totalEarnedToTotalSpentCosts = {
   colors: ['earned', 'spent', 'tillProfit']
 }
 
-const productsTillProfit = products.reduce((acc, { title, product_name, amount, price }) => {
-  acc.data.push(Math.ceil((tillProfit / price)))
+const productsTillProfit = tillProfit >= 0 ? products.reduce((acc, { title, product_name, price }) => {
+  acc.data.push(Math.ceil(tillProfit / price))
   acc.labels.push(title)
   acc.colors.push(product_name)
 
   return acc
-}, { data: [], labels: [], colors: [] })
+}, { data: [], labels: [], colors: [] }) : null
+
+const ordersWithStatusNew = orders.filter(({ status }) => status === 'new')
+
+const productsNeedToCook = ordersWithStatusNew.length ? formatOrdersToProductsAndAmount(ordersWithStatusNew) : null
+
+const productsNeedToCookDataForChart = {
+  data: Object.values(productsNeedToCook),
+  labels: Object.keys(productsNeedToCook).map(key => products.find(({ product_name }) => key === product_name)?.title),
+  colors: Object.keys(productsNeedToCook)
+}
+
+function formatOrdersToProductsAndAmount (unformattedOrders) {
+  return unformattedOrders.reduce((acc, { order_info }) => {
+    const orderInfo = JSON.parse(order_info)
+    for (let key in orderInfo) {
+      if (acc[key]) acc[key] += orderInfo[key].amount
+      else acc[key] = 1
+    }
+    return acc
+  }, {})
+}
 </script>
 
 <template>
@@ -63,10 +77,10 @@ const productsTillProfit = products.reduce((acc, { title, product_name, amount, 
       <div class="card__body">
         <chart
           type="bar"
-          :data="orderInfoForChart.data"
-          :labels="orderInfoForChart.labels"
-          :colors="orderInfoForChart.colors"
-          canvasId="orderInfoForChart"
+          :data="productsSoldDataForChart.data"
+          :labels="productsSoldDataForChart.labels"
+          :colors="productsSoldDataForChart.colors"
+          canvasId="productsSoldDataForChart"
         />
       </div>
     </el-card>
@@ -74,7 +88,10 @@ const productsTillProfit = products.reduce((acc, { title, product_name, amount, 
       <template #header>
         Till profit, QTY
       </template>
-      <div class="card__body">
+      <div
+        v-if="productsTillProfit"
+        class="card__body"
+      >
         <chart
           type="bar"
           :data="productsTillProfit.data"
@@ -82,6 +99,12 @@ const productsTillProfit = products.reduce((acc, { title, product_name, amount, 
           :colors="productsTillProfit.colors"
           canvasId="productsTillProfit"
         />
+      </div>
+      <div
+        v-else
+        class="profit"
+      >
+        {{ Math.ceil(-tillProfit) }} ₴
       </div>
     </el-card>
     <el-card class="chart-card">
@@ -98,6 +121,29 @@ const productsTillProfit = products.reduce((acc, { title, product_name, amount, 
         />
       </div>
     </el-card>
+    <el-card class="chart-card">
+      <template #header>
+        Need to cook, QTY
+      </template>
+      <div
+        v-if="productsNeedToCook"
+        class="card__body"
+      >
+        <chart
+          type="bar"
+          :data="productsNeedToCookDataForChart.data"
+          :labels="productsNeedToCookDataForChart.labels"
+          :colors="productsNeedToCookDataForChart.colors"
+          canvasId="productsNeedToCook"
+        />
+      </div>
+      <div
+        v-else
+        class="no-need-to-cook"
+      >
+        No need to cook 👨‍🍳
+      </div>
+    </el-card>
   </div>
 </template>
 
@@ -108,6 +154,12 @@ const productsTillProfit = products.reduce((acc, { title, product_name, amount, 
   .card__body {
     height: 100%;
   }
+}
+
+.el-card__body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header {
@@ -132,5 +184,19 @@ const productsTillProfit = products.reduce((acc, { title, product_name, amount, 
       min-width: 100%;
     }
   }
+}
+
+.profit {
+  text-align: center;
+  color: #95D42F;
+  font-weight: bold;
+  font-size: 64px;
+}
+
+.no-need-to-cook {
+  text-align: center;
+  color: rgb(48, 49, 51);
+  font-weight: bold;
+  font-size: 32px;
 }
 </style>
