@@ -176,9 +176,10 @@ function formatOrdersToProductsAndAmount (unformattedOrders) {
   gap: 20px;
 
   .chart-card {
-    flex: 1;
+    max-width: 460px;
     min-width: 300px;
     min-height: 300px;
+    flex: 1;
 
     @media screen and (max-width: 991px) {
       min-width: 100%;
