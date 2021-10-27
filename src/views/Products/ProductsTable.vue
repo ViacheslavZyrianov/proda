@@ -5,7 +5,6 @@ import { ElMessage } from 'element-plus'
 import tableColumns from './tableColumns'
 
 const store = useStore()
-await store.dispatch('fetchProducts')
 
 const emit = defineEmits(['edit'])
 

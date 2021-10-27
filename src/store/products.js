@@ -36,6 +36,16 @@ const actions = {
     } catch (err) {
       return err.response.data
     }
+  },
+  async putProductCooked(_, { product_name, amount }) {
+    try {
+      const { data } = await axios.put(`products/${product_name}/cooked`, {
+        amount
+      })
+      return data
+    } catch (err) {
+      return err.response.data
+    }
   }
 }
 
