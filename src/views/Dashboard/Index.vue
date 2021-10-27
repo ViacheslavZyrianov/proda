@@ -172,7 +172,6 @@ function formatOrdersToProductsAndAmount (unformattedOrders) {
 .header {
   &__title {
     margin-right: auto;
-    margin-bottom: 24px;
   }
 }
 
