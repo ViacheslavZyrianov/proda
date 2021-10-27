@@ -102,9 +102,11 @@ function formatOrdersToProductsAndAmount (unformattedOrders) {
       </div>
       <div
         v-else
-        class="profit"
+        class="card__body_center"
       >
-        {{ Math.ceil(-tillProfit) }} ₴
+        <div class="profit">
+          {{ Math.ceil(-tillProfit) }} ₴ 🤑
+        </div>
       </div>
     </el-card>
     <el-card class="chart-card">
@@ -139,9 +141,11 @@ function formatOrdersToProductsAndAmount (unformattedOrders) {
       </div>
       <div
         v-else
-        class="no-need-to-cook"
+        class="card__body_center"
       >
-        No need to cook 👨‍🍳
+        <div class="no-need-to-cook">
+          No need to cook 👨‍🍳
+        </div>
       </div>
     </el-card>
   </div>
@@ -156,10 +160,13 @@ function formatOrdersToProductsAndAmount (unformattedOrders) {
   }
 }
 
-.el-card__body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.card__body {
+  &_center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
 }
 
 .header {
@@ -191,7 +198,7 @@ function formatOrdersToProductsAndAmount (unformattedOrders) {
   text-align: center;
   color: #95D42F;
   font-weight: bold;
-  font-size: 64px;
+  font-size: 40px;
 }
 
 .no-need-to-cook {
