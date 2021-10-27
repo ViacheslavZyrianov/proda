@@ -58,10 +58,6 @@ async function onSubmit() {
 
   isSubmitButtonLoading.value = false
 }
-
-function onCookedProductChange(product) {
-  console.log('product', product)
-}
 </script>
 
 <template>
@@ -80,10 +76,7 @@ function onCookedProductChange(product) {
         prop="product_name"
         label="Product"
       >
-        <el-select
-          v-model="form.product_name"
-          @change="onCookedProductChange"
-        >
+        <el-select v-model="form.product_name">
           <el-option
             v-for="product in products"
             :key="product.product_name"
