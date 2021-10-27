@@ -49,11 +49,11 @@ const ordersWithStatusNew = orders.filter(({ status }) => status === 'new')
 
 const productsNeedToCook = ordersWithStatusNew.length ? formatOrdersToProductsAndAmount(ordersWithStatusNew) : null
 
-const productsNeedToCookDataForChart = {
+const productsNeedToCookDataForChart = productsNeedToCook ? {
   data: Object.values(productsNeedToCook),
   labels: Object.keys(productsNeedToCook).map(key => products.find(({ product_name }) => key === product_name)?.title),
   colors: Object.keys(productsNeedToCook)
-}
+} : null
 
 function formatOrdersToProductsAndAmount (unformattedOrders) {
   return unformattedOrders.reduce((acc, { order_info }) => {
