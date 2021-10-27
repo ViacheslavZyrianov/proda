@@ -226,6 +226,12 @@ async function onSetNextStatus() {
     ElMessage({ message: data.status, type: 'success' })
   }
 }
+
+async function onPastePhone() {
+  const data = await navigator.clipboard.readText()
+  const formattedData = data.replace(/\s/g, '').slice(-9)
+  form.phone = formattedData
+}
 </script>
 
 <template>
@@ -233,7 +239,6 @@ async function onSetNextStatus() {
     v-model="isVisible"
     :title="drawerTitle"
     size="500px"
-    @close="onAddEditOrderClose"
     @closed="onAddEditOrderClosed"
   >
     <el-form
@@ -264,16 +269,29 @@ async function onSetNextStatus() {
         prop="phone"
         label="Phone"
       >
-        <el-input
-          v-model="form.phone"
-          placeholder="991234567"
-          type="tel"
-          maxlength="9"
-        >
-          <template #prepend>
-            +380
-          </template>
-        </el-input>
+        <el-row :gutter="6">
+          <el-col :span="16">
+            <el-input
+              v-model="form.phone"
+              placeholder="991234567"
+              type="tel"
+              maxlength="9"
+            >
+              <template #prepend>
+                +380
+              </template>
+            </el-input>
+          </el-col>
+          <el-col :span="8">
+            <el-button
+              type="primary"
+              class="paste-phone"
+              @click="onPastePhone"
+            >
+              Paste
+            </el-button>
+          </el-col>
+        </el-row>
       </el-form-item>
       <el-form-item
         prop="city"
@@ -558,5 +576,9 @@ async function onSetNextStatus() {
 
 .el-step.is-horizontal .el-step__line {
   top: 16px;
+}
+
+.paste-phone {
+  width: 100%;
 }
 </style>
