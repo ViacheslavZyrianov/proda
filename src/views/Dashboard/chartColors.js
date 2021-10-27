@@ -4,5 +4,6 @@ export default {
   pomegranate: '#D42F34',
   bundle: '#A55FFF',
   earned: '#95D42F',
-  spent: '#D42F2F'
+  spent: '#D42F2F',
+  tillProfit: '#FF9A36'
 }

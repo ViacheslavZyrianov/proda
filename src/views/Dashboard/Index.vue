@@ -32,25 +32,25 @@ const costsEarned = orders.reduce((acc, val) => {
   return acc
 }, 0)
 
-const profit = costsSpent - costsEarned
+const tillProfit = costsSpent - costsEarned
 
 const totalEarnedToTotalSpentCosts = {
   data: [
     costsEarned,
-    costsSpent
+    costsSpent,
+    tillProfit >= 0 ? tillProfit : 0
   ],
-  labels: ['Earned', 'Spent'],
-  colors: ['earned', 'spent']
+  labels: ['Earned', 'Spent', 'Till profit'],
+  colors: ['earned', 'spent', 'tillProfit']
 }
 
-const productsTillProfit = {
-  data: [
-    Object.keys(orderInfoData).map(key => products.find(({ product_name }) => product_name === key)?.price * orderInfoData[key]),
-    Array(Object.keys(orderInfoData).length).fill(profit)
-  ],
-  labels: Object.keys(orderInfoData).map(key => products.find(({ product_name }) => key === product_name)?.title),
-  colors: Object.keys(orderInfoData)
-}
+const productsTillProfit = products.reduce((acc, { title, product_name, amount, price }) => {
+  acc.data.push(Math.ceil((tillProfit / price)))
+  acc.labels.push(title)
+  acc.colors.push(product_name)
+
+  return acc
+}, { data: [], labels: [], colors: [] })
 </script>
 
 <template>
@@ -58,7 +58,7 @@ const productsTillProfit = {
   <div class="charts">
     <el-card class="chart-card">
       <template #header>
-        Sold
+        Sold, QTY
       </template>
       <div class="card__body">
         <chart
@@ -66,13 +66,27 @@ const productsTillProfit = {
           :data="orderInfoForChart.data"
           :labels="orderInfoForChart.labels"
           :colors="orderInfoForChart.colors"
-          canvasId="totalSoldProducts"
+          canvasId="orderInfoForChart"
         />
       </div>
     </el-card>
     <el-card class="chart-card">
       <template #header>
-        Earned to spent
+        Till profit, QTY
+      </template>
+      <div class="card__body">
+        <chart
+          type="bar"
+          :data="productsTillProfit.data"
+          :labels="productsTillProfit.labels"
+          :colors="productsTillProfit.colors"
+          canvasId="productsTillProfit"
+        />
+      </div>
+    </el-card>
+    <el-card class="chart-card">
+      <template #header>
+        Finances, UAH
       </template>
       <div class="card__body">
         <chart
@@ -81,20 +95,6 @@ const productsTillProfit = {
           :labels="totalEarnedToTotalSpentCosts.labels"
           :colors="totalEarnedToTotalSpentCosts.colors"
           canvasId="totalEarnedToTotalSpentCosts"
-        />
-      </div>
-    </el-card>
-    <el-card class="chart-card">
-      <template #header>
-        Profit
-      </template>
-      <div class="card__body">
-        <chart
-          type="bar,line"
-          :data="productsTillProfit.data"
-          :labels="orderInfoForChart.labels"
-          :colors="orderInfoForChart.colors"
-          canvasId="howMuchToSellTillProfit"
         />
       </div>
     </el-card>
@@ -124,7 +124,7 @@ const productsTillProfit = {
   gap: 20px;
 
   .chart-card {
-    width: calc((100% / 3) - 20px);
+    flex: 1;
     min-width: 300px;
     min-height: 300px;
 
