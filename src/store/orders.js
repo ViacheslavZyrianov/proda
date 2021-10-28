@@ -25,8 +25,6 @@ const actions = {
   async putOrder(_, { payload, id }) {
     try {
       const { data } = await axios.put(`orders/${id}`, payload)
-      let neededOrder = state.orders.find(({ order_id }) => order_id === id)
-      neededOrder = Object.assign(neededOrder, data.data)
       return data
     } catch (err) {
       return err.response.data

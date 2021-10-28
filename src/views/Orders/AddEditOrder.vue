@@ -131,6 +131,8 @@ async function onSubmit() {
     })
   }
 
+  await store.dispatch('fetchOrders')
+
   if (data.message) ElMessage({ message: data.message, type: 'error' })
   else {
     if (mode.value === 'add') {
