@@ -111,4 +111,27 @@ input[type=number] {
 .el-space {
   width: 100%;
 }
+
+.el-pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  &__title {
+    text-transform: capitalize;
+  }
+
+  .button-text {
+    @media screen and (max-width: 960px) {
+      display: none;
+    }
+  }
+}
 </style>

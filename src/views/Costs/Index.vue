@@ -24,9 +24,9 @@ function onEditCost() {
 </script>
 
 <template>
-  <section class="page_costs">
-    <div class="costs__header">
-      <h1 class="header__title">Costs</h1>
+  <header class="page-header">
+    <h1 class="page-header__title">{{ $route.name }}</h1>
+    <div class="page-header__content">
       <el-button
         type="success"
         size="small"
@@ -36,40 +36,12 @@ function onEditCost() {
         <span class="button-text">Add cost</span>
       </el-button>
     </div>
-    <costs-table
-      @edit="onEditCost"
-    />
-  </section>
+  </header>
+  <costs-table
+    @edit="onEditCost"
+  />
   <add-edit-cost
     :is-visible="isAddEditCostVisible"
     @close="onAddEditCostClose"
   />
 </template>
-
-<style lang="scss">
-.page_costs {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  .costs {
-    &__header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-
-      .header {
-        &__title {
-          margin-right: auto;
-        }
-      }
-
-      .button-text {
-        @media screen and (max-width: 960px) {
-          display: none;
-        }
-      }
-    }
-  }
-}
-</style>

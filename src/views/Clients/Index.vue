@@ -69,18 +69,20 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
 <template>
-  <div class="clients__header">
-    <h1 class="header__title">Clients</h1>
-    <el-button
-      type="primary"
-      size="small"
-      class="header__filter-button"
-      @click="onFilterOrderClick"
-    >
-      <i class="el-icon-s-operation el-icon-left"></i>
-      <span class="button-text">Filter</span>
-    </el-button>
-  </div>
+  <header class="page-header">
+    <h1 class="page-header__title">{{ $route.name }}</h1>
+    <div class="page-header__content">
+      <el-button
+        type="primary"
+        size="small"
+        class="header__filter-button"
+        @click="onFilterOrderClick"
+      >
+        <i class="el-icon-s-operation el-icon-left"></i>
+        <span class="button-text">Filter</span>
+      </el-button>
+    </div>
+  </header>
   <filter-clients
     :is-visible="isFilterClientsVisible"
     @close="onFilterClientsClose"
@@ -181,30 +183,6 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </template>
 
 <style lang="scss">
-.clients {
-  &__header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-
-    .header {
-      &__title {
-        margin-right: auto;
-      }
-
-      &__filter-button {
-        margin-left: auto;
-      }
-    }
-
-    .button-text {
-      @media screen and (max-width: 960px) {
-        display: none;
-      }
-    }
-  }
-}
-
 .card-row {
   margin-bottom: 8px;
 

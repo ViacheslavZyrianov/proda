@@ -19,18 +19,20 @@ function onAddStorageClick() {
 </script>
 
 <template>
-  <div class="storage__header">
-    <h1 class="header__title">Storage</h1>
-    <el-button
-      type="success"
-      size="small"
-      class="add-button"
-      @click="onAddStorageClick"
-    >
-      <i class="el-icon-plus el-icon-left"></i>
-      <span class="button-text">Add storage</span>
-    </el-button>
-  </div>
+  <header class="page-header">
+    <h1 class="page-header__title">{{ $route.name }}</h1>
+    <div class="page-header__content">
+      <el-button
+        type="success"
+        size="small"
+        class="add-button"
+        @click="onAddStorageClick"
+      >
+        <i class="el-icon-plus el-icon-left"></i>
+        <span class="button-text">Add storage</span>
+      </el-button>
+    </div>
+  </header>
   <storage-table
     @edit="onEditStorage"
   />
@@ -39,31 +41,3 @@ function onAddStorageClick() {
     @close="onAddEditStorageClose"
   />
 </template>
-
-<style lang="scss" scoped>
-.storage {
-  &__header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-
-    .header {
-      &__title {
-        margin-right: auto;
-      }
-    }
-
-    .button-text {
-      @media screen and (max-width: 960px) {
-        display: none;
-      }
-    }
-
-    .add-button {
-      @media screen and (max-width: 960px) {
-        margin-left: auto;
-      }
-    }
-  }
-}
-</style>

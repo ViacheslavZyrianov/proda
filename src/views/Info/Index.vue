@@ -35,6 +35,9 @@ const infoList = [
 </script>
 
 <template>
+  <header class="page-header">
+    <h1 class="page-header__title">{{ $route.name }}</h1>
+  </header>
   <el-row :gutter="12">
     <el-col :span="24">
       <el-card

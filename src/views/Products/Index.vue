@@ -34,27 +34,29 @@ function onCookedProductClose() {
 </script>
 
 <template>
-  <div class="products__header">
-    <h1 class="header__title">Products</h1>
-    <el-button
-      type="primary"
-      size="small"
-      class="cooked-button"
-      @click="onCookedProductClick"
-    >
-      <i class="el-icon-fork-spoon el-icon-left"></i>
-      <span class="button-text">Cooked</span>
-    </el-button>
-    <el-button
-      type="success"
-      size="small"
-      class="add-button"
-      @click="onCookedProductClick"
-    >
-      <i class="el-icon-plus el-icon-left"></i>
-      <span class="button-text">Add product</span>
-    </el-button>
-  </div>
+  <header class="page-header">
+    <h1 class="page-header__title">{{ $route.name }}</h1>
+    <div class="page-header__content">
+      <el-button
+        type="primary"
+        size="small"
+        class="cooked-button"
+        @click="onCookedProductClick"
+      >
+        <i class="el-icon-fork-spoon el-icon-left"></i>
+        <span class="button-text">Cooked</span>
+      </el-button>
+      <el-button
+        type="success"
+        size="small"
+        class="add-button"
+        @click="onCookedProductClick"
+      >
+        <i class="el-icon-plus el-icon-left"></i>
+        <span class="button-text">Add product</span>
+      </el-button>
+    </div>
+  </header>
   <products-table
     @edit="onEditProduct"
   />
@@ -67,25 +69,3 @@ function onCookedProductClose() {
     @close="onCookedProductClose"
   />
 </template>
-
-<style lang="scss" scoped>
-.products {
-  &__header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-
-    .header {
-      &__title {
-        margin-right: auto;
-      }
-    }
-
-    .button-text {
-      @media screen and (max-width: 960px) {
-        display: none;
-      }
-    }
-  }
-}
-</style>

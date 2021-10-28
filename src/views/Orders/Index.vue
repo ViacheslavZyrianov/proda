@@ -35,9 +35,9 @@ function onEditOrder() {
 </script>
 
 <template>
-  <section class="page_orders">
-    <div class="orders__header">
-      <h1 class="header__title">Orders</h1>
+  <header class="page-header">
+    <h1 class="page-header__title">{{ $route.name }}</h1>
+    <div class="page-header__content">
       <el-button
         type="primary"
         size="small"
@@ -55,51 +55,21 @@ function onEditOrder() {
         <span class="button-text">Add order</span>
       </el-button>
     </div>
-    <orders-table
-      @edit="onEditOrder"
-    />
-    <add-edit-order
-      :is-visible="isAddEditOrderVisible"
-      @close="onAddEditOrderClose"
-    />
-    <filter-orders
-      :is-visible="isFilterOrdersVisible"
-      @close="onFilterOrdersClose"
-    />
-  </section>
+  </header>
+  <orders-table
+    @edit="onEditOrder"
+  />
+  <add-edit-order
+    :is-visible="isAddEditOrderVisible"
+    @close="onAddEditOrderClose"
+  />
+  <filter-orders
+    :is-visible="isFilterOrdersVisible"
+    @close="onFilterOrdersClose"
+  />
 </template>
 
 <style lang="scss">
-.page_orders {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  .orders {
-    &__header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-
-      .header {
-        &__title {
-          margin-right: auto;
-        }
-      }
-
-      .button-text {
-        @media screen and (max-width: 960px) {
-          display: none;
-        }
-      }
-    }
-  }
-}
-
-.add-order {
-  margin: auto 0 0 auto;
-}
-
 .el-table .cell {
   word-break: normal;
   white-space: pre-wrap;

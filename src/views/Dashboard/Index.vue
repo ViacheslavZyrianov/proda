@@ -68,7 +68,9 @@ function formatOrdersToProductsAndAmount (unformattedOrders) {
 </script>
 
 <template>
-  <h1 class="header__title">Dashboard</h1>
+  <header class="page-header">
+    <h1 class="page-header__title">{{ $route.name }}</h1>
+  </header>
   <div class="charts">
     <el-card class="chart-card">
       <template #header>
@@ -166,12 +168,6 @@ function formatOrdersToProductsAndAmount (unformattedOrders) {
     align-items: center;
     justify-content: center;
     height: 100%;
-  }
-}
-
-.header {
-  &__title {
-    margin-right: auto;
   }
 }
 

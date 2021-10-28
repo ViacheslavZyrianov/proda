@@ -295,12 +295,6 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
   white-space: pre-wrap;
 }
 
-.el-pagination {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
 .el-button__filter-search {
   margin-left: 4px;
 }
