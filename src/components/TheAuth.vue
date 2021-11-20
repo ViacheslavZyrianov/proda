@@ -38,7 +38,6 @@ function onSubmit() {
           type="password"
         />
         <el-button
-          type="primary"
           native-type="submit"
           class="form__submit-button"
         >

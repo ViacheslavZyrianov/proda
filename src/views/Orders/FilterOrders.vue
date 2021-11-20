@@ -208,7 +208,6 @@ function onDatePickerChange() {
         </el-button>
         <el-button
           :loading="isButtonSubmitLoading"
-          type="primary"
           @click="onFiltersSubmitClick"
         >
           Submit

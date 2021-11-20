@@ -59,7 +59,6 @@ const infoList = [
         >
           {{ label }} –&nbsp;<el-link
             :href="link"
-            type="primary"
             target="_blank"
           >
             {{ link }}

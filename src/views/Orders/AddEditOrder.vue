@@ -286,7 +286,6 @@ async function onPastePhone() {
           </el-col>
           <el-col :span="8">
             <el-button
-              type="primary"
               class="paste-phone"
               @click="onPastePhone"
             >
@@ -381,7 +380,6 @@ async function onPastePhone() {
           >
             <el-button
               size="mini"
-              type="primary"
               :loading="isSetStatusButtonLoading"
               @click="onSetNextStatus"
             >
@@ -530,7 +528,6 @@ async function onPastePhone() {
         <el-button
           v-if="mode === 'edit'"
           :loading="isSubmitButtonLoading"
-          type="primary"
           @click="onSubmit"
         >
           Save

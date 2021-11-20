@@ -161,7 +161,6 @@ function onDatePickerChange() {
         <el-button
           v-if="mode === 'edit'"
           :loading="isSubmitButtonLoading"
-          type="primary"
           @click="onSubmit"
         >
           Edit

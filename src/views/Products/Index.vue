@@ -38,7 +38,6 @@ function onCookedProductClose() {
     <h1 class="page-header__title">{{ $route.name }}</h1>
     <div class="page-header__content">
       <el-button
-        type="primary"
         size="small"
         class="cooked-button"
         @click="onCookedProductClick"

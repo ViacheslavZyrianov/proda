@@ -79,7 +79,7 @@ async function onDeleteOrder(id, index) {
 function tagType(status) {
   if (status === 'new') return 'success'
   if (status === 'cooked') return 'warning'
-  if (status === 'sent') return 'primary'
+  if (status === 'sent') return ''
   if (status === 'delivered') return 'info'
 }
 
@@ -116,12 +116,6 @@ async function onSetStatus(id, status) {
     ElMessage({ message: data.status, type: 'success' })
   }
 }
-
-// function priceTagType(paid) {
-//   if (paid === 'FALSE') return 'error'
-//   if (paid === 'TRUE') return 'success'
-//   return 'primary'
-// }
 
 function paidIconClassList(paid) {
   const classList = ['el-icon-money']
@@ -161,7 +155,6 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
           <el-link
             v-if="prop === 'phone'"
             :href="`tel:+380${product[prop]}`"
-            type="primary"
           >
             +380{{ product[prop] }}
           </el-link>
@@ -197,7 +190,6 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
         </el-tag>
         <el-button
           size="mini"
-          type="primary"
           icon="el-icon-edit"
           @click="onEditOrder(product.order_id)"
         />

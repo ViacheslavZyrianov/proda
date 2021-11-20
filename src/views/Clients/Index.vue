@@ -73,7 +73,6 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
     <h1 class="page-header__title">{{ $route.name }}</h1>
     <div class="page-header__content">
       <el-button
-        type="primary"
         size="small"
         class="header__filter-button"
         @click="onFilterOrderClick"
@@ -114,14 +113,12 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
           <el-link
             v-if="prop === 'phone'"
             :href="`tel:+380${client[prop]}`"
-            type="primary"
           >
             +380{{ client[prop] }}
           </el-link>
           <el-link
             v-else-if="prop === 'orders'"
             :href="generateHrefForOrderColumn(client.first_name, client.last_name)"
-            type="primary"
           >
             {{ client[prop] }}
           </el-link>
@@ -160,7 +157,6 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
           <el-link
             v-else-if="tableColumn.prop === 'orders'"
             :href="generateHrefForOrderColumn(scope.row.first_name, scope.row.last_name)"
-            type="primary"
           >
             {{ scope.row[tableColumn.prop] }}
           </el-link>
