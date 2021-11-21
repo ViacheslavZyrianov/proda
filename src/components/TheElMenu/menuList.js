@@ -2,7 +2,7 @@ export default [
   {
     label: 'Dashboard',
     to: 'dashboard',
-    icon: 'data-line'
+    icon: 'histogram'
   },
   {
     label: 'Products',
@@ -27,7 +27,7 @@ export default [
   {
     label: 'Info',
     to: 'info',
-    icon: 'info'
+    icon: 'info-filled'
   },
   {
     label: 'Storage',

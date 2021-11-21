@@ -271,27 +271,31 @@ async function onPastePhone() {
         prop="phone"
         label="Phone"
       >
-        <el-row :gutter="6">
-          <el-col :span="16">
+        <el-row
+          :gutter="6"
+        >
+          <el-col>
             <el-input
               v-model="form.phone"
               placeholder="991234567"
               type="tel"
               maxlength="9"
+              @paste="onPastePhone"
             >
               <template #prepend>
                 +380
               </template>
             </el-input>
           </el-col>
-          <el-col :span="8">
+          <!-- <el-col>
             <el-button
               class="paste-phone"
+              circle
               @click="onPastePhone"
             >
-              Paste
+              <el-icon><document-copy /></el-icon>
             </el-button>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-form-item>
       <el-form-item
@@ -369,8 +373,10 @@ async function onPastePhone() {
             v-for="({ text, value, icon }) in statusList"
             :key="value"
             :title="text"
-            :icon="icon"
           >
+            <template #icon>
+              <el-icon><component :is="icon" /></el-icon>
+            </template>
           </el-step>
         </el-steps>
         <el-row v-if="isSetNextStatusButtonVisible">
@@ -528,6 +534,7 @@ async function onPastePhone() {
         <el-button
           v-if="mode === 'edit'"
           :loading="isSubmitButtonLoading"
+          type="success"
           @click="onSubmit"
         >
           Save

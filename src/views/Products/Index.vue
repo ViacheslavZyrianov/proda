@@ -42,7 +42,7 @@ function onCookedProductClose() {
         class="cooked-button"
         @click="onCookedProductClick"
       >
-        <i class="el-icon-fork-spoon el-icon-left"></i>
+        <el-icon><fork-spoon /></el-icon>
         <span class="button-text">Cooked</span>
       </el-button>
       <el-button
@@ -51,7 +51,7 @@ function onCookedProductClose() {
         class="add-button"
         @click="onCookedProductClick"
       >
-        <i class="el-icon-plus el-icon-left"></i>
+        <el-icon><plus /></el-icon>
         <span class="button-text">Add product</span>
       </el-button>
     </div>

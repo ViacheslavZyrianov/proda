@@ -42,7 +42,7 @@ function onEditOrder() {
         size="small"
         @click="onFilterOrderClick"
       >
-        <i class="el-icon-s-operation el-icon-left"></i>
+        <el-icon><operation /></el-icon>
         <span class="button-text">Filter</span>
       </el-button>
       <el-button
@@ -50,7 +50,7 @@ function onEditOrder() {
         size="small"
         @click="onAddOrderClick"
       >
-        <i class="el-icon-plus el-icon-left"></i>
+        <el-icon><plus /></el-icon>
         <span class="button-text">Add order</span>
       </el-button>
     </div>

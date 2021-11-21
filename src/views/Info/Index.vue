@@ -1,10 +1,7 @@
 <script setup>
-import { DocumentCopy, Monitor } from '@element-plus/icons'
-
 const infoList = [
   {
     title: 'Databases',
-    icon: DocumentCopy.render(),
     list: [
       {
         label: 'Test',
@@ -18,7 +15,6 @@ const infoList = [
   },
   {
     title: 'Development',
-    icon: Monitor.render(),
     list: [
       {
         label: 'Trello',

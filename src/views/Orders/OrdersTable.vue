@@ -59,6 +59,10 @@ const parsedOrders = computed(_ => store.state.orders.orders.map(order => ({
   order_info: parseOrderInfo(order.order_info)
 })))
 
+function moneyIconColor(isPaid) {
+  return isPaid ? '#68C23A' : '#F56C6C'
+}
+
 function onEditOrder(id) {
   store.commit('set_editing_order', store.state.orders.orders.find(({ order_id }) => order_id === id))
   emit('edit')
@@ -117,13 +121,6 @@ async function onSetStatus(id, status) {
   }
 }
 
-function paidIconClassList(paid) {
-  const classList = ['el-icon-money']
-  if (paid === 'TRUE') classList.push('el-icon-money_paid')
-  else if (paid === 'FALSE') classList.push('el-icon-money_not-paid')
-  return classList
-}
-
 modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
@@ -160,8 +157,14 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
           </el-link>
           <div
             v-else-if="prop === 'price'"
+            class="price"
           >
-            {{ product[prop] }} ₴ <i :class="paidIconClassList(product.paid)"></i>
+            {{ product[prop] }}₴
+            <el-icon>
+              <money
+                :color="moneyIconColor(product.paid)"
+              />
+            </el-icon>
           </div>
           <template v-else>
             {{ product[prop] }}
@@ -190,16 +193,23 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
         </el-tag>
         <el-button
           size="mini"
-          icon="el-icon-edit"
+          circle
+          type="primary"
+          style="margin-left: 0;"
           @click="onEditOrder(product.order_id)"
-        />
+        >
+          <el-icon><edit /></el-icon>
+        </el-button>
         <el-button
           :loading="isDeleteButtonLoadingCalculated(productIndex)"
           size="mini"
+          circle
           type="danger"
-          icon="el-icon-delete"
+          style="margin-left: 4px;"
           @click="onDeleteOrder(product.order_id, productIndex)"
-        />
+        >
+          <el-icon><delete /></el-icon>
+        </el-button>
       </el-row>
     </el-card>
   </el-space>
@@ -295,15 +305,12 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
   float: right;
 }
 
-.el-icon-money {
-  color: #3F9EFF;
-  
-  &_paid {
-    color: #67C23A;
-  }
+.price {
+  display: flex;
+  align-items: center;
 
-  &_not-paid {
-    color: #F56C6B;
+  .el-icon {
+    margin-left: 4px;
   }
 }
 </style>

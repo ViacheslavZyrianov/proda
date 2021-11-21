@@ -77,7 +77,7 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
         class="header__filter-button"
         @click="onFilterOrderClick"
       >
-        <i class="el-icon-s-operation el-icon-left"></i>
+        <el-icon><operation /></el-icon>
         <span class="button-text">Filter</span>
       </el-button>
     </div>

@@ -144,6 +144,7 @@ function onAddEditStorageClosed() {
         <el-button
           v-if="mode === 'edit'"
           :loading="isSubmitButtonLoading"
+          type="primary"
           @click="onSubmit"
         >
           Submit

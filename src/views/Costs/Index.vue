@@ -32,7 +32,7 @@ function onEditCost() {
         size="small"
         @click="onAddCostClick"
       >
-        <i class="el-icon-plus el-icon-left"></i>
+        <el-icon><plus /></el-icon>
         <span class="button-text">Add cost</span>
       </el-button>
     </div>

@@ -152,7 +152,6 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
         v-model="search"
         size="mini"
         placeholder="Type to search"
-        suffix-icon="el-icon-search"
       />
     </template>
     <template #default="scope">

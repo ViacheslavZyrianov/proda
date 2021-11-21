@@ -1,22 +1,24 @@
+import { Plus, ForkSpoon, TakeawayBox, Check } from '@element-plus/icons'
+
 export default [
   {
     text: 'New',
     value: 'new',
-    icon: 'el-icon-plus'
+    icon: Plus
   },
   {
     text: 'Cooked',
     value: 'cooked',
-    icon: 'el-icon-fork-spoon'
+    icon: ForkSpoon
   },
   {
     text: 'Sent',
     value: 'sent',
-    icon: 'el-icon-takeaway-box'
+    icon: TakeawayBox
   },
   {
     text: 'Delivered',
     value: 'delivered',
-    icon: 'el-icon-check'
+    icon: Check
   }
 ]

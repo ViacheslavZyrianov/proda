@@ -91,7 +91,7 @@ function onDatePickerChange() {
     <el-form
       :model="form"
       ref="refForm"
-      label-width="100px"
+      label-width="80px"
     >
       <el-form-item
         prop="first_name"
@@ -187,14 +187,16 @@ function onDatePickerChange() {
       >
         <el-checkbox-group
           v-model="form.statusList"
+          size="mini"
+          fill="#68C23A"
         >
           <el-checkbox-button
-            v-for="({ text, value }) in statusList"
+            v-for="({ icon, value }) in statusList"
             :key="value"
             :label="value"
             type="success"
           >
-            {{ text }}
+            <el-icon><component :is="icon" /></el-icon>
           </el-checkbox-button>
         </el-checkbox-group>
       </el-form-item>
@@ -208,6 +210,7 @@ function onDatePickerChange() {
         </el-button>
         <el-button
           :loading="isButtonSubmitLoading"
+          type="primary"
           @click="onFiltersSubmitClick"
         >
           Submit
@@ -235,5 +238,11 @@ function onDatePickerChange() {
 .el-date-range-picker__content {
   width: 100%;
   float: none;
+}
+
+.el-date-editor {
+  .el-input__icon {
+    display: none;
+  }
 }
 </style>

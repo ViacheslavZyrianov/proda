@@ -6,8 +6,6 @@ import menuList from './menuList'
 const isCollapsed = ref(window.innerWidth < 961)
 const defaultActive = menuList.findIndex(({ to }) => to === window.location.pathname.slice(1)) || 0
 
-const collapseButtonIcon = computed(() => isCollapsed.value ? 'el-icon-right' : 'el-icon-back')
-
 function onMenuItemClick (to) {
   router.push(to)
 }
@@ -27,21 +25,21 @@ function onLogOutClick () {
     :collapse="isCollapsed"
   >
     <el-menu-item
-      v-for="(menuItem, menuItemIndex) in menuList"
-      :key="menuItem.to"
+      v-for="({ to, label, icon }, menuItemIndex) in menuList"
+      :key="to"
       :index="`${menuItemIndex}`"
-      @click="onMenuItemClick(menuItem.to)"
+      @click="onMenuItemClick(to)"
     >
-      <i :class="`el-icon-${menuItem.icon}`" />
+      <el-icon><component :is="icon" /></el-icon>
       <template #title>
-        {{ menuItem.label }}
+        {{ label }}
       </template>
     </el-menu-item>
     <el-menu-item
       class="el-menu-item_logout"
       @click="onLogOutClick"
     >
-      <i class="el-icon-key" />
+      <el-icon><key /></el-icon>
       <template #title>
         Log out
       </template>    

@@ -28,7 +28,7 @@ function onAddStorageClick() {
         class="add-button"
         @click="onAddStorageClick"
       >
-        <i class="el-icon-plus el-icon-left"></i>
+        <el-icon><plus /></el-icon>
         <span class="button-text">Add storage</span>
       </el-button>
     </div>

@@ -69,12 +69,9 @@ input[type=number] {
   overflow-y: auto;
 }
 
-.el-aside {
-  .el-menu {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
+.el-menu {
+  display: flex;
+  flex-direction: column;
 }
 
 .el-card {
