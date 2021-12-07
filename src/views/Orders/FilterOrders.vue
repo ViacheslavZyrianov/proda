@@ -149,8 +149,7 @@ function onDatePickerChange() {
       >
         <el-input
           v-model="form.post"
-          placeholder="000"
-          maxlength="3"
+          maxlength="5"
           clearable
           @clear="onFieldClear('nova_post')"
         />

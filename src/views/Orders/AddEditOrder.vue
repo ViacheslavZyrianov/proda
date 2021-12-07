@@ -318,8 +318,7 @@ async function onPastePhone() {
         <el-input
           v-model="form.post"
           type="tel"
-          placeholder="000"
-          maxlength="3"
+          maxlength="5"
         />
       </el-form-item>
       <el-form-item
