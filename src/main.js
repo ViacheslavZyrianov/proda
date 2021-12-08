@@ -4,7 +4,7 @@ import router from './router'
 import './plugins/axios'
 import store from './store/index'
 import { ElIcon, ElCheckbox, ElCheckboxGroup, ElCheckboxButton, ElDatePicker, ElPopover, ElLoading, ElCard, ElRow, ElCol, ElSpace, ElDivider, ElButton, ElAside, ElMain, ElContainer, ElMenu, ElMenuItem, ElDrawer, ElTable, ElTableColumn, ElDialog, ElForm, ElFormItem, ElInput, ElSelect, ElSelectV2, ElTag, ElPagination, ElScrollbar, ElLink, ElSteps, ElStep, ElSwitch } from 'element-plus'
-import 'element-plus/theme-chalk/display.css'
+import 'element-plus/dist/index.css'
 import icons from './plugins/icons/index'
 
 const app = createApp(App)
