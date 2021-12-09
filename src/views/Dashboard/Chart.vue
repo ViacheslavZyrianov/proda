@@ -20,6 +20,16 @@ const props = defineProps({
     type: Array,
     required: true
   },
+  stepX: {
+    type: Number,
+    required: false,
+    default: 1
+  },
+  stepY: {
+    type: Number,
+    required: false,
+    default: 1
+  },
   canvasId: {
     type: String,
     required: true
@@ -71,6 +81,18 @@ onMounted(() => {
         tooltip: {
           callbacks: {
             label: ({ raw }) => raw
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            stepSize: props.stepX
+          }
+        },
+        y: {
+          ticks: {
+            stepSize: props.stepY
           }
         }
       }

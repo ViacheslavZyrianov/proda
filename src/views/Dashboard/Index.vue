@@ -45,15 +45,53 @@ const productsTillProfit = tillProfit >= 0 ? products.reduce((acc, { title, prod
   return acc
 }, { data: [], labels: [], colors: [] }) : null
 
+
+// NEED TO COOK START
+
 const ordersWithStatusNew = orders.filter(({ status }) => status === 'new')
 
-const productsNeedToCook = ordersWithStatusNew.length ? formatOrdersToProductsAndAmount(ordersWithStatusNew) : null
+function formatProductsForNeedToCookChart () {
+  const newOrdersProductsAndAmount = formatOrdersToProductsAndAmount(ordersWithStatusNew)
+
+  const productsWithIncludes = products.reduce((acc, { product_name, includes }) => {
+    if (includes !== '') acc[product_name] = includes.split(',')
+    return acc
+  }, {})
+
+  for (let productWithIncludes in productsWithIncludes) {
+    if (newOrdersProductsAndAmount[productWithIncludes]) {
+      productsWithIncludes[productWithIncludes].forEach(includedProduct => {
+        const needToCookAmount = newOrdersProductsAndAmount[productWithIncludes]
+        if (newOrdersProductsAndAmount[includedProduct]) newOrdersProductsAndAmount[includedProduct] += needToCookAmount
+        else newOrdersProductsAndAmount[includedProduct] = needToCookAmount
+      })
+    }
+
+    delete newOrdersProductsAndAmount[productWithIncludes]
+  }
+
+  for (let newOrderedProduct in newOrdersProductsAndAmount) {
+    const { amount: amountOfCookedProduct } = products.find(({ product_name }) => product_name === newOrderedProduct)
+    const needToCookAmount = newOrdersProductsAndAmount[newOrderedProduct] - amountOfCookedProduct
+    if (needToCookAmount <= 0) delete newOrdersProductsAndAmount[newOrderedProduct]
+    else newOrdersProductsAndAmount[newOrderedProduct] = needToCookAmount
+  }
+
+  return newOrdersProductsAndAmount
+}
+
+const productsNeedToCook = ordersWithStatusNew.length ? formatProductsForNeedToCookChart() : null
 
 const productsNeedToCookDataForChart = productsNeedToCook ? {
   data: Object.values(productsNeedToCook),
   labels: Object.keys(productsNeedToCook).map(key => products.find(({ product_name }) => key === product_name)?.title),
   colors: Object.keys(productsNeedToCook)
 } : null
+
+
+// NEED TO COOK FINISH
+
+
 
 function formatOrdersToProductsAndAmount (unformattedOrders) {
   return unformattedOrders.reduce((acc, { order_info }) => {
@@ -121,6 +159,7 @@ function formatOrdersToProductsAndAmount (unformattedOrders) {
           :data="totalEarnedToTotalSpentCosts.data"
           :labels="totalEarnedToTotalSpentCosts.labels"
           :colors="totalEarnedToTotalSpentCosts.colors"
+          :stepY="500"
           canvasId="totalEarnedToTotalSpentCosts"
         />
       </div>
