@@ -425,7 +425,7 @@ async function onPastePhone() {
             justify="end"
           >
             <el-col
-              :xs="12"
+              :xs="10"
               :sm="8"
               :md="4"
             >
@@ -434,9 +434,8 @@ async function onPastePhone() {
               />
             </el-col>
             <el-col
-              :xs="12"
+              :xs="14"
               :sm="8"
-              :md="6"
             >
               <el-input
                 v-model="orderInfo.discount"
@@ -494,17 +493,16 @@ async function onPastePhone() {
           justify="end"
         >
           <el-col
-            :xs="12"
+            :xs="10"
             :sm="6"
-            :md="12"
             style="text-align: right"
           >
             {{ form.price }} ₴
           </el-col>
           <el-col
-            :xs="12"
+            :xs="14"
             :sm="4"
-            :md="6"
+            :md="8"
           >
             <el-input
               v-model="totalDiscount"
