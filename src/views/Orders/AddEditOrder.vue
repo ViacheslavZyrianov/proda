@@ -42,6 +42,7 @@ watch(() => store.state.orders.editingOrder, _ => {
     form.post = editingOrder.nova_post
     form.ttn = editingOrder.ttn
     form.comment = editingOrder.comment
+    form.isPaid = editingOrder.paid === 'TRUE' ? true : false
     form.status = editingOrder.status
 
     const orderInfo = JSON.parse(editingOrder.order_info)
