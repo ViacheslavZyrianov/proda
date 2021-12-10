@@ -136,10 +136,6 @@ async function onSubmit() {
 
   if (data.message) ElMessage({ message: data.message, type: 'error' })
   else {
-    if (mode.value === 'add') {
-      const { length } = store.state.orders.orders
-      store.state.orders.orders[length] = data.data
-    }
     ElMessage({ message: data.status, type: 'success' })
     emit('close')
   }
