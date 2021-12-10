@@ -242,7 +242,7 @@ async function onPastePhone() {
     v-model="isVisible"
     :title="drawerTitle"
     size="500px"
-    @closed="onAddEditOrderClosed"
+    @closed="onAddEditOrderClose"
   >
     <el-form
       :model="form"

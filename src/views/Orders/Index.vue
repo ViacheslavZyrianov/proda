@@ -29,7 +29,7 @@ function onAddEditOrderClose() {
   isAddEditOrderVisible.value = false
 }
 
-function onEditOrder() {
+function onAddEditOrderOpen() {
   isAddEditOrderVisible.value = true
 }
 </script>
@@ -56,7 +56,7 @@ function onEditOrder() {
     </div>
   </header>
   <orders-table
-    @edit="onEditOrder"
+    @edit="onAddEditOrderOpen"
   />
   <add-edit-order
     :is-visible="isAddEditOrderVisible"
