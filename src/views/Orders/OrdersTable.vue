@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
 import { useStore } from 'vuex'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElRadioButton, ElRadioGroup } from 'element-plus'
 import router from '../../router'
 import modifyRouteQuery from '../../utils/modifyRouteQuery'
 import tableColumns from './tableColumns'
@@ -19,6 +19,8 @@ defineProps({
 const isTableDataLoading = ref(false)
 
 const currentPage = ref(Number(router.currentRoute.value.query.page))
+
+const currentStatus = ref(router.currentRoute.value.query.status || 'New')
 
 const isSetStatusButtonLoading = ref(false)
 
@@ -42,6 +44,10 @@ watch(() => router, async () => {
     isTableDataLoading.value = false
   }
 }, { deep: true, immediate: true })
+
+watch(() => currentStatus.value, () => {
+  modifyRouteQuery({ status: currentStatus.value === 'All' ? null : currentStatus.value })
+})
 
 function parseOrderInfo(orderInfo) {
   const parsedOrderInfo = JSON.parse(orderInfo)
@@ -125,6 +131,22 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
 <template>
+  <div class="quick-filters">
+    <el-radio-group
+      v-model="currentStatus"
+      size="small"
+    >
+      <el-radio-button
+        key="all"
+        label="All"
+      />
+      <el-radio-button
+        v-for="({ text }) in statusList"
+        :key="text"
+        :label="text"
+      />
+    </el-radio-group>
+  </div>
   <el-space
     v-if="isMobile"
     direction="vertical"
@@ -312,5 +334,9 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
   .el-icon {
     margin-left: 4px;
   }
+}
+
+.quick-filters {
+  margin-bottom: 16px;
 }
 </style>

@@ -2,7 +2,6 @@
 import { ref, reactive, watch } from 'vue'
 import { useStore } from 'vuex'
 import router from '../../router'
-import statusList from './statusList'
 import modifyRouteQuery from '../../utils/modifyRouteQuery'
 
 const store = useStore()
@@ -13,7 +12,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'closed'])
 
-const { query: { first_name, last_name, phone, city, post, ttn, order_date, status } } = router.currentRoute.value
+const { query: { first_name, last_name, phone, city, post, ttn, order_date } } = router.currentRoute.value
 
 const form = reactive({
   first_name,
@@ -22,8 +21,7 @@ const form = reactive({
   city,
   post,
   ttn,
-  order_date: order_date?.split('-'),
-  statusList: status ? status?.split(',') : []
+  order_date: order_date?.split('-')
 })
 
 const isButtonSubmitLoading = ref(false)
@@ -50,8 +48,7 @@ async function onFiltersSubmitClick() {
     city: form.city,
     nova_post: form.post,
     ttn: form.ttn,
-    order_date: form?.order_date?.join('-'),
-    status: form?.statusList.join(',')
+    order_date: form?.order_date?.join('-')
   }
 
   modifyRouteQuery(filters)
@@ -63,11 +60,7 @@ async function onFiltersResetClick() {
   const query = { page }
 
   for (let formKey in form) {
-    if (formKey === 'statusList') {
-      form.statusList.length = 0
-      query.status = null
-    }
-    else delete form[formKey]
+    delete form[formKey]
     query[formKey] = null
   }
 
@@ -179,25 +172,6 @@ function onDatePickerChange() {
           end-placeholder="End date"
           @change="onDatePickerChange"
         />
-      </el-form-item>
-      <el-form-item
-        prop="status"
-        label="Status"
-      >
-        <el-checkbox-group
-          v-model="form.statusList"
-          size="mini"
-          fill="#68C23A"
-        >
-          <el-checkbox-button
-            v-for="({ icon, value }) in statusList"
-            :key="value"
-            :label="value"
-            type="success"
-          >
-            <el-icon><component :is="icon" /></el-icon>
-          </el-checkbox-button>
-        </el-checkbox-group>
       </el-form-item>
       <div class="el-drawer__footer">
         <el-button
