@@ -65,6 +65,8 @@ const parsedOrders = computed(_ => store.state.orders.orders.map(order => ({
   order_info: parseOrderInfo(order.order_info)
 })))
 
+const isOrdersExist = computed(_ => store.state.orders.orders.length > 0)
+
 function moneyIconColor(isPaid) {
   return isPaid ? '#68C23A' : '#F56C6C'
 }
@@ -139,178 +141,183 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
       <el-radio-button
         key="all"
         label="All"
+        class="quick-filters__radiobutton"
       />
       <el-radio-button
         v-for="({ text }) in statusList"
         :key="text"
         :label="text"
+        class="quick-filters__radiobutton"
       />
     </el-radio-group>
   </div>
-  <el-space
-    v-if="isMobile"
-    direction="vertical"
-    size="large"
-    fill
-  >
-    <el-card
-      v-for="(product, productIndex) in parsedOrders"
-      :key="product.product_name"
+  <h4 v-if="!isOrdersExist">No orders</h4>
+  <template v-else>
+    <el-space
+      v-if="isMobile"
+      direction="vertical"
+      size="large"
+      fill
     >
-      <el-row
-        v-for="({ label, prop }) in tableColumns"
-        :key="prop"
-        class="card-row"
-        align="middle"
+      <el-card
+        v-for="(product, productIndex) in parsedOrders"
+        :key="product.product_name"
       >
-        <el-col :span="8">
-          <b>{{ label }}</b>
-        </el-col>
-        <el-col
-          :span="14"
-          :offset="2"
-          class="card-row__value"
+        <el-row
+          v-for="({ label, prop }) in tableColumns"
+          :key="prop"
+          class="card-row"
+          align="middle"
         >
-          <el-link
-            v-if="prop === 'phone'"
-            :href="`tel:+380${product[prop]}`"
+          <el-col :span="8">
+            <b>{{ label }}</b>
+          </el-col>
+          <el-col
+            :span="14"
+            :offset="2"
+            class="card-row__value"
           >
-            +380{{ product[prop] }}
-          </el-link>
-          <div
-            v-else-if="prop === 'price'"
-            class="price"
+            <el-link
+              v-if="prop === 'phone'"
+              :href="`tel:+380${product[prop]}`"
+            >
+              +380{{ product[prop] }}
+            </el-link>
+            <div
+              v-else-if="prop === 'price'"
+              class="price"
+            >
+              {{ product[prop] }}₴
+              <el-icon>
+                <money
+                  :color="moneyIconColor(product.paid)"
+                />
+              </el-icon>
+            </div>
+            <template v-else>
+              {{ product[prop] }}
+            </template>
+          </el-col>
+        </el-row>
+        <el-row
+          justify="end"
+          align="center"
+        >
+          <el-button
+            v-if="isButtonSetStatusVisible(product.status)"
+            :loading="isSetStatusButtonLoading"
+            size="mini"
+            style="margin-right: auto"
+            @click="onSetStatus(product.order_id, product.status)"
           >
-            {{ product[prop] }}₴
-            <el-icon>
-              <money
-                :color="moneyIconColor(product.paid)"
-              />
-            </el-icon>
-          </div>
-          <template v-else>
-            {{ product[prop] }}
+            Set <b>{{ currentStatusData(product.status).text }}</b>
+          </el-button>
+          <el-tag
+            v-else
+            type="info"
+            style="margin-right: auto"
+          >
+            Delivered
+          </el-tag>
+          <el-button
+            size="mini"
+            circle
+            type="primary"
+            style="margin-left: 0;"
+            @click="onEditOrder(product.order_id)"
+          >
+            <el-icon><edit /></el-icon>
+          </el-button>
+          <el-button
+            :loading="isDeleteButtonLoadingCalculated(productIndex)"
+            size="mini"
+            circle
+            type="danger"
+            style="margin-left: 4px;"
+            @click="onDeleteOrder(product.order_id, productIndex)"
+          >
+            <el-icon><delete /></el-icon>
+          </el-button>
+        </el-row>
+      </el-card>
+    </el-space>
+    <el-table
+      v-else
+      v-loading="isTableDataLoading"
+      :data="parsedOrders"
+      :default-sort="defaultSort"
+      border
+      fit
+    >
+      <el-table-column
+        v-for="tableColumn in tableColumns"
+        :key="tableColumn.prop"
+        :prop="tableColumn.prop"
+        :label="tableColumn.label"
+        :column-key="tableColumn.prop"
+        :align="tableColumn.align"
+        :width="tableColumn.width"
+        :minWidth="tableColumn.minWidth"
+      >
+        <template #default="scope">
+          <template v-if="tableColumn.prop === 'phone'">
+            +380{{ scope.row[tableColumn.prop] }}
           </template>
-        </el-col>
-      </el-row>
-      <el-row
-        justify="end"
+          <template v-else>
+            {{ scope.row[tableColumn.prop] }}
+          </template>
+        </template>
+      </el-table-column>
+      <el-table-column
         align="center"
+        prop="status"
+        label="Status"
+        column-key="status"
+        :width="120"
       >
-        <el-button
-          v-if="isButtonSetStatusVisible(product.status)"
-          :loading="isSetStatusButtonLoading"
-          size="mini"
-          style="margin-right: auto"
-          @click="onSetStatus(product.order_id, product.status)"
-        >
-          Set <b>{{ currentStatusData(product.status).text }}</b>
-        </el-button>
-        <el-tag
-          v-else
-          type="info"
-          style="margin-right: auto"
-        >
-          Delivered
-        </el-tag>
-        <el-button
-          size="mini"
-          circle
-          type="primary"
-          style="margin-left: 0;"
-          @click="onEditOrder(product.order_id)"
-        >
-          <el-icon><edit /></el-icon>
-        </el-button>
-        <el-button
-          :loading="isDeleteButtonLoadingCalculated(productIndex)"
-          size="mini"
-          circle
-          type="danger"
-          style="margin-left: 4px;"
-          @click="onDeleteOrder(product.order_id, productIndex)"
-        >
-          <el-icon><delete /></el-icon>
-        </el-button>
-      </el-row>
-    </el-card>
-  </el-space>
-  <el-table
-    v-else
-    v-loading="isTableDataLoading"
-    :data="parsedOrders"
-    :default-sort="defaultSort"
-    border
-    fit
-  >
-    <el-table-column
-      v-for="tableColumn in tableColumns"
-      :key="tableColumn.prop"
-      :prop="tableColumn.prop"
-      :label="tableColumn.label"
-      :column-key="tableColumn.prop"
-      :align="tableColumn.align"
-      :width="tableColumn.width"
-      :minWidth="tableColumn.minWidth"
-    >
-      <template #default="scope">
-        <template v-if="tableColumn.prop === 'phone'">
-          +380{{ scope.row[tableColumn.prop] }}
+        <template #default="scope">
+          <el-tag
+            :type="tagType(scope.row.status)"
+          >
+            {{ scope.row.status }}
+          </el-tag>
         </template>
-        <template v-else>
-          {{ scope.row[tableColumn.prop] }}
+      </el-table-column>
+      <el-table-column
+        label="Operations"
+        align="center"
+        fixed="right"
+        :width="200"
+      >
+        <template #default="scope">
+          <el-button
+            size="mini"
+            @click="onEditOrder(scope.row.order_id)"
+          >
+            Edit
+          </el-button>
+          <el-button
+            :loading="isDeleteButtonLoadingCalculated(scope.$index)"
+            size="mini"
+            type="danger"
+            @click="onDeleteOrder(scope.row.order_id, scope.$index)"
+          >
+            Delete
+          </el-button>
         </template>
-      </template>
-    </el-table-column>
-    <el-table-column
-      align="center"
-      prop="status"
-      label="Status"
-      column-key="status"
-      :width="120"
-    >
-      <template #default="scope">
-        <el-tag
-          :type="tagType(scope.row.status)"
-        >
-          {{ scope.row.status }}
-        </el-tag>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="Operations"
-      align="center"
-      fixed="right"
-      :width="200"
-    >
-      <template #default="scope">
-        <el-button
-          size="mini"
-          @click="onEditOrder(scope.row.order_id)"
-        >
-          Edit
-        </el-button>
-        <el-button
-          :loading="isDeleteButtonLoadingCalculated(scope.$index)"
-          size="mini"
-          type="danger"
-          @click="onDeleteOrder(scope.row.order_id, scope.$index)"
-        >
-          Delete
-        </el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-  <el-pagination
-    :disabled="isTableDataLoading"
-    :total="store.state.orders.ordersTotal"
-    :current-page="currentPage"
-    layout="prev, pager, next"
-    mini
-    background
-    hide-on-single-page
-    @current-change="onPaginationChange"
-  />
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      :disabled="isTableDataLoading"
+      :total="store.state.orders.ordersTotal"
+      :current-page="currentPage"
+      layout="prev, pager, next"
+      mini
+      background
+      hide-on-single-page
+      @current-change="onPaginationChange"
+    />
+  </template>
 </template>
 
 <style lang="scss" scoped>
@@ -338,5 +345,11 @@ modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 
 .quick-filters {
   margin-bottom: 16px;
+
+  &__radiobutton {
+    & ::v-deep(.el-radio-button__inner) {
+      padding: 8px 10px !important;
+    }
+  }
 }
 </style>
