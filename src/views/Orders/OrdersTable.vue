@@ -1,4 +1,4 @@
-<script setup>
+<script async setup>
 import { ref, reactive, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { ElMessage, ElRadioButton, ElRadioGroup } from 'element-plus'
@@ -16,11 +16,16 @@ defineProps({
   isVisible: Boolean
 })
 
+await modifyRouteQuery({
+  page: router.currentRoute.value.query.page || 1,
+  status: router.currentRoute.value.query.status || 'New'
+})
+
 const isTableDataLoading = ref(false)
 
 const currentPage = ref(Number(router.currentRoute.value.query.page))
 
-const currentStatus = ref(router.currentRoute.value.query.status || 'New')
+const currentStatus = ref(router.currentRoute.value.query.status)
 
 const isSetStatusButtonLoading = ref(false)
 
@@ -128,8 +133,6 @@ async function onSetStatus(id, status) {
     ElMessage({ message: data.status, type: 'success' })
   }
 }
-
-modifyRouteQuery({ page: router.currentRoute.value.query.page || 1 })
 </script>
 
 <template>
