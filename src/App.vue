@@ -2,19 +2,22 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 
-import TheElMenu from './components/TheElMenu/Index.vue'
+import TheElMenuAside from './components/TheElMenu/Aside.vue'
+import TheElMenuFooter from './components/TheElMenu/Footer.vue'
 import TheAuth from './components/TheAuth.vue'
 
 import router from './router/index'
 import { computed } from 'vue'
 
 const isLoggedIn = computed(() => window.localStorage.getItem('auth'))
+
+const elContainerDirection = computed(() => window.innerWidth < 767 ? 'vertical' : 'horizontal')
 </script>
 
 <template>
-  <el-container>
-    <template v-if="isLoggedIn">
-      <the-el-menu />
+  <template v-if="isLoggedIn">
+    <el-container :direction="elContainerDirection">
+      <the-el-menu-aside class="hidden-xs-only" />
       <el-main>
         <Suspense>
           <template #default>
@@ -25,9 +28,10 @@ const isLoggedIn = computed(() => window.localStorage.getItem('auth'))
           </template>
         </Suspense>
       </el-main>
-    </template>
-    <the-auth v-else />
-  </el-container>
+      <the-el-menu-footer class="hidden-sm-and-up" />
+    </el-container>
+  </template>
+  <the-auth v-else />
 </template>
 
 <style lang="scss">
@@ -59,19 +63,13 @@ input[type=number] {
 }
 
 #app {
-  min-height: 100vh;
+  display: flex;
+  height: 100vh;
 }
 
 .el-main {
-  height: 100vh;
-  width: calc(100vw - 64px);
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.el-menu {
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+  flex: 0;
 }
 
 .el-card {

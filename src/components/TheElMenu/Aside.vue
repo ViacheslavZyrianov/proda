@@ -1,29 +1,16 @@
 <script setup>
-import { ref, computed } from 'vue'
-import router from '../../router/index'
-import menuList from './menuList'
+import script from './script'
 
-const isCollapsed = ref(window.innerWidth < 961)
-const defaultActive = menuList.findIndex(({ to }) => to === window.location.pathname.slice(1)) || 0
-
-function onMenuItemClick (to) {
-  router.push(to)
-}
-
-function onLogOutClick () {
-  const isLogOut = window.confirm('Are you sure you want to log out?')
-  if (isLogOut) {
-    window.localStorage.removeItem('auth')
-    window.location.reload()
-  }
-}
+const {
+  menuList,
+  defaultActive,
+  onMenuItemClick,
+  onLogOutClick
+} = script()
 </script>
 
 <template>
-  <el-menu
-    :default-active="`${defaultActive}`"
-    :collapse="isCollapsed"
-  >
+  <el-menu :default-active="`${defaultActive}`">
     <el-menu-item
       v-for="({ to, label, icon }, menuItemIndex) in menuList"
       :key="to"
