@@ -42,7 +42,7 @@ function menuItemClassList (currentPage) {
 
 <style lang="scss" scoped>
 .el-scrollbar {
-  height: 57px;
+  height: 90px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   border-top: 1px solid rgb(228, 231, 237);
 }
